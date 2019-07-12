@@ -12,3 +12,5 @@ const playersLeft = (playersArray) => {
     }
     return stillPlaying; 
 }
+
+export default playersLeft; 

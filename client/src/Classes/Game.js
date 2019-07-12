@@ -27,6 +27,23 @@ class Game {
     checkIfGameOver () {
         // return 
     }
+
+    insertPlayerIntoGame (playerInstance) {
+        /**
+         * Should be a playerInstance from Player class
+         * insert into array 
+         */
+        this.players.push(playerInstance); 
+      }
+
+    dealToPlayers () {
+        /**
+         * Seven cards each to every player 
+         */
+        //loop over 7 times  to each player giving them one card each iteration
+        //for time complexity reasons it would be faster to deal from the pack since pop works in constant time
+        
+    }
 }
 
 

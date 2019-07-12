@@ -89,3 +89,5 @@ for (let d = 0;  d < decksToGenerate; d++){
 
 return deck
 }
+
+export default generateDeck;

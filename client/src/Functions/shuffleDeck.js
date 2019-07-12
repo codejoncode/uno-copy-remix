@@ -12,3 +12,5 @@ const shuffleDeck = (deck) => {
     }
     return deck; 
 }
+
+export default shuffleDeck;

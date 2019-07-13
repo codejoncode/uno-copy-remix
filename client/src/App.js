@@ -1,13 +1,31 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
+import startGame from "./Functions/startGame";
+
 
 class App extends Component {
+  state = {
+    players :["Jonathan", "Timonthy", "James"]
+  }
+
+  newGame = () => {
+    console.log("starting new game")
+    const {players} = this.state;
+    const game = startGame(players, players.length);
+    //update the state with the game  
+    this.setState({game});
+  }
+
+  useTurn = () => {
+
+  }
+
   render(){
 
     return (
       <div>
-       
+       <button onClick = {this.newGame}>Start Game</button>
+
       </div>
     );
   }

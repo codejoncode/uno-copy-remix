@@ -38,7 +38,7 @@ class Game {
           // there is an error
           // if checkForErrors has a length of three a default option is chosen for the player example they have to pick up the cards
           if (checkForErrors.length === 3) {
-            mainGamePlay(player, checkForErrors[2]);
+            this.mainGamePlay(player, checkForErrors[2]);
             //recursively call this function on itself  but now insert the users defaulted choice.  pick up the draw amount.
           } else {
             //displayer error to the player
@@ -71,7 +71,7 @@ class Game {
             if (index === playersCardsToPlay.length - 1) {
               this.topCard = card;
               const currentColor =
-                this.colorIs === topCard.color ? this.colorIs : topCard.color;
+                this.colorIs === this.topCard.color ? this.colorIs : this.topCard.color;
               this.colorIs = currentColor;
               console.log(`The current color is ${this.colorIs}`);
               this.nextPlayersTurn();
@@ -97,6 +97,7 @@ class Game {
           } for not calling uno issuing  two cards to ${againstPlayer.name}`
         );
         this.issueFromDeck(againstPlayer, 2);
+        break;
       case "blue":
         this.colorIs = "blue";
         break;

@@ -1,3 +1,8 @@
+const SKIP = 10;
+const REVERSE = 11;
+const DRAW2 = 12;
+const WILD = 13;
+const DRAW4 = 14;
 class Player {
   constructor(name) {
     this.name = name;
@@ -53,7 +58,7 @@ class Player {
         return [true, "User is forced to pick up", "pickup"];
       } else {
         const card = this.hand[indexArray];
-        if (card.cardValue === DRAW2 || cardValue === DRAW4) {
+        if (card.cardValue === DRAW2 || card.cardValue === DRAW4) {
           //user has the draw 2 or draw four and is prepared to fire it.
           this.gatherForPlay.push(card);
           this.playerTopCard = card;
@@ -81,11 +86,11 @@ class Player {
         card.cardValue === topCard.cardValue + 1
       ) {
         if (
-          this.playerTopCard.cardValue != WILD &&
-          this.playerTopCard.cardValue != SKIP &&
-          this.playerTopCard.cardValue != REVERSE &&
-          this.playerTopCard.cardValue != DRAW2 &&
-          this.playerTopCard.cardValue != DRAW4
+          this.playerTopCard.cardValue !== WILD &&
+          this.playerTopCard.cardValue !== SKIP &&
+          this.playerTopCard.cardValue !== REVERSE &&
+          this.playerTopCard.cardValue !== DRAW2 &&
+          this.playerTopCard.cardValue !== DRAW4
         ) {
           // CAN'T COUNT UP OR DOWN USING WILDS REVERSES OR DRAWS  OR SKIPS
           //countup or down has been triggered
@@ -111,11 +116,11 @@ class Player {
         (this.playerTopCard === 0 && card.cardValue === 9)
       ) {
         if (
-          this.playerTopCard.cardValue != WILD &&
-          this.playerTopCard.cardValue != SKIP &&
-          this.playerTopCard.cardValue != REVERSE &&
-          this.playerTopCard.cardValue != DRAW2 &&
-          this.playerTopCard.cardValue != DRAW4
+          this.playerTopCard.cardValue !== WILD &&
+          this.playerTopCard.cardValue !== SKIP &&
+          this.playerTopCard.cardValue !== REVERSE &&
+          this.playerTopCard.cardValue !== DRAW2 &&
+          this.playerTopCard.cardValue !== DRAW4
         ) {
           // CAN'T COUNT UP OR DOWN USING WILDS REVERSES OR DRAWS  OR SKIPS
           //count up and count down has been triggered

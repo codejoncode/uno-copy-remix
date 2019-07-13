@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
 import './App.css';
 import startGame from "./Functions/startGame";
-
+import Card from "./Components/Card";
 
 class App extends Component {
   state = {
-    players :["Jonathan", "Timonthy", "James"]
+    players :["Jonathan", "Timonthy", "James"],
+    gameStarted: false,
+    currentPlayer: null, 
   }
 
   newGame = () => {
@@ -13,7 +15,7 @@ class App extends Component {
     const {players} = this.state;
     const game = startGame(players, players.length);
     //update the state with the game  
-    this.setState({game});
+    this.setState({game, gameStarted: true, currentPlayer: game.players[game.playerIndex]});
   }
 
   useTurn = () => {
@@ -21,11 +23,17 @@ class App extends Component {
   }
 
   render(){
-
+    const {gameStarted, currentPlayer} = this.state; 
     return (
       <div>
-       <button onClick = {this.newGame}>Start Game</button>
-
+      { !gameStarted && <button onClick = {this.newGame}>Start Game</button>}
+      {gameStarted && 
+        <div>
+          {/* only the player logged in as this player should see the cards faces will modify this later down the line */}
+          {currentPlayer.hand.map((card, index) => <Card key = {index} card = {card}/>)}
+        </div>
+      
+      }
       </div>
     );
   }

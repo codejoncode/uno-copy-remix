@@ -4,7 +4,7 @@ import Card from './Card';
 const MainBoard = ({topCard}) => {
     if (topCard){
         return (
-            <div>
+            <div style = {{margin: "auto 0"}}>
                 <Card card = {topCard}/>
             </div>
         )

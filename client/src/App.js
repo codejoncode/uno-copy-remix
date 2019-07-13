@@ -10,6 +10,8 @@ class App extends Component {
     players :["Jonathan", "Timonthy", "James"],
     gameStarted: false,
     currentPlayer: null, 
+    currentUsersHandAttempt : [],
+    
   }
 
   newGame = async () => {
@@ -23,15 +25,22 @@ class App extends Component {
   useTurn = () => {
 
   }
+  nextPlayer = () => {
+    //check that the users has made a pick up at least before they click nextPlayer
+    //I don't want to remove the choice from the user they can choose to not play at all. 
+
+  }
 
   pickUp = (playerInstance, playerChoosesTo) => () => {
 
     console.log(`${playerInstance.name} chooses to pickup.`);
     this.state.game.mainGamePlay(playerInstance, playerChoosesTo)
+    this.setState({currentPlayer: this.state.game.players[this.state.game.playerIndex]})
   }
 
   render(){
-    const {gameStarted, currentPlayer} = this.state; 
+    const {gameStarted} = this.state; 
+    const currentPlayer = this.state.game && this.state.game.players[this.state.game.playerIndex];
     
     console.log(currentPlayer);
     return (
@@ -39,6 +48,15 @@ class App extends Component {
         {gameStarted && <SideBar players = {this.state.game.players} activePlayer = {currentPlayer}/>}
       { !gameStarted && <button onClick = {this.newGame}>Start Game</button>}
       {gameStarted &&  <MainBoard   topCard = {this.state.game.topCard}/> }
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
       {gameStarted && currentPlayer &&
         <div>
           {/* only the player logged in as this player should see the cards faces will modify this later down the line */}

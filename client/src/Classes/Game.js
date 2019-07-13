@@ -24,7 +24,12 @@ class Game {
     this.playersRanksArray = [];
     this.colorIs = null;
     this.skips = 0;
+    this.error = null; // using this to help display errors to the user when they occur instead of returns 
+    this.defaultAction = null; // this is when a user has to take a default action no other choice availalbe. 
+    this.userStillHasChoice = true; // defaulted to true but can change like when a user has picked up a draw stack. 
+    //if a user picks up one card by choice they can still play that card or more. 
     // ^this is the cards that have been played but not reinserted into the deck
+    this.pickUpAllowed = true; 
   }
   mainGamePlay(player, playerChoosesTo, againstPlayer = null) {
     // player should be instance of Player Calss playerChoosesTo is their decesion they make   playersCardsToPlay is optional because not all choices requires them to play cards.
@@ -82,9 +87,16 @@ class Game {
 
         break;
       case "pickup":
+        console.log("In game player chooses to pick up")
         const pickUpAmount = this.drawTotal > 0 ? this.drawTotal : 1;
         this.issueFromDeck(player, pickUpAmount);
-        this.nextPlayersTurn();
+        if(this.drawTotal > 0){
+          this.nextPlayersTurn();// shouldn't automatically be the next players turn. 
+          //unless user is picking up a draw total. 
+          this.drawTotal = 0; 
+        } else {
+          
+        }
         break;
       case "call uno":
         console.log(`${player.name} calls uno`);
@@ -135,19 +147,36 @@ class Game {
       }
     }
   }
+
   issueFromDeck(player, amount = 1) {
+    console.log(`${player.name} getting ${amount} ${amount > 1 ? "cards" : "card"}`)
     //story user has to pick up or chooses to pick up still can drop down though. // amount should be either 1 by default or the drawTotal
     //player should be an instance of Player class
-    while (amount > 0) {
-      player.addToPlayersHand(this.deck.pop());
-      amount--;
-    }
-    //reset this.drawTotal incase IssueFromDeck was called for a non optional pick up
-    this.drawTotal = 0;
-    if (this.deck.length <= 10) {
-      this.shuffleCardPileBackIntoDeck();
+    if(this.pickUpAllowed){
+      while (amount > 0) {
+        player.addToPlayersHand(this.deck.pop());
+        amount--;
+      }
+
+      console.log(player);
+      //reset this.drawTotal incase IssueFromDeck was called for a non optional pick up
+      if(this.drawTotal > 0){
+        //this indicates that the playeer was picking up a draw Total therefore there turn is over. 
+        this.userStillHasChoice = false; 
+        this.nextPlayersTurn(); 
+      }
+      this.drawTotal = 0;
+      if (this.deck.length <= 10) {
+        this.shuffleCardPileBackIntoDeck();
+      }
+      this.pickUpAllowed = false; 
+
+    } else {
+
+      this.nextPlayersTurn();
     }
   }
+
   addToSkips() {
     this.skips += 1;
   }
@@ -167,11 +196,15 @@ class Game {
         (this.playerIndex + this.increment) %   this.numberOfplayersPlaying;
       this.increment = 0;
       this.skips = 0;
+      this.userStillHasChoice = true;
+      this.pickUpAllowed = true;  
     } else {
       this.playerIndex =
         (this.playerIndex - this.increment) %   this.numberOfplayersPlaying;
       this.increment = 0;
       this.skips = 0;
+      this.userStillHasChoice = true;
+      this.pickUpAllowed = true; 
     }
   }
 
@@ -229,8 +262,8 @@ class Game {
         this.nextPlayersTurn();
         break;
       } else if (popOff.cardValue === SKIP) {
-        //add to the skips
-        this.addToSkips();
+        //in the begining of the game we don't add to skips just want to go to the next person 
+        //if three people are playing and add to skips is called ti will go to the third person when it should go to the second
         this.nextPlayersTurn();
         break;
       } else if (popOff.cardValue === DRAW2) {

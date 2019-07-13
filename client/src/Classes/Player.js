@@ -7,7 +7,7 @@ class Player {
   constructor(name) {
     this.name = name;
     this.hand = [];
-    this.cardsLeft = this.hand.length;
+    this.cardsLeft = 0;
     this.gatherForPlay = [];
     this.playerTopCard = null;
     this.countUpOrDown = false;
@@ -17,7 +17,7 @@ class Player {
 
   addToPlayersHand(card) {
     this.hand.push(card);
-    this.cardsLeft += 1;
+    this.cardsLeft= this.hand.length;
   }
 
   organizePlayersHand(type) {

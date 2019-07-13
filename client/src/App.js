@@ -10,12 +10,12 @@ class App extends Component {
     currentPlayer: null, 
   }
 
-  newGame = () => {
+  newGame = async () => {
     console.log("starting new game")
     const {players} = this.state;
-    const game = startGame(players, players.length);
+    const game = await startGame(players, players.length);
     //update the state with the game  
-    this.setState({game, gameStarted: true, currentPlayer: game.players[game.playerIndex]});
+    await this.setState({game, gameStarted: true, currentPlayer: game.players[game.playerIndex]});
   }
 
   useTurn = () => {
@@ -24,16 +24,23 @@ class App extends Component {
 
   render(){
     const {gameStarted, currentPlayer} = this.state; 
+    console.log(currentPlayer);
     return (
       <div>
       { !gameStarted && <button onClick = {this.newGame}>Start Game</button>}
-      {gameStarted && 
+      {gameStarted && currentPlayer &&
         <div>
           {/* only the player logged in as this player should see the cards faces will modify this later down the line */}
-          {currentPlayer.hand.map((card, index) => <Card key = {index} card = {card}/>)}
+          {currentPlayer && currentPlayer.hand.map((card, index) => <Card key = {index} card = {card}/>)}
         </div>
-      
       }
+       {gameStarted && !currentPlayer &&
+         <button onClick = {this.newGame}>Start Game</button>
+        }
+        <br/>
+        {gameStarted && currentPlayer && 
+        <div><button>Play</button> <button>Select Card</button> <button>Pick Up</button></div> }
+        {currentPlayer && currentPlayer.hand < 2 && <button>Call One</button>}
       </div>
     );
   }

@@ -29,6 +29,7 @@
   vertical-align:middle;
   border-radius:5px;
   overflow:hidden;
+  font-size: 60%;
 }
 
 .card .mark{
@@ -156,7 +157,7 @@
 }
 .card.num-wild:before,
 .card.num-wild:after{
-  content: "\128397";
+  content: "\1f308";
 }
 .card.num-skip:before,
 .card.num-skip:after{
@@ -164,17 +165,17 @@
 }
 .card.num-reverse:before,
 .card.num-reverse:after{
-  content: '\027FA';
+  content: '\267B';
 }
 
 .card.num-draw2:before,
 .card.num-draw2:after{
-  content: "+2";
+  content: "\2681";
 }
 
 .card.num-draw4:before,
 .card.num-draw4:after{
-  content: "+4";
+  content: "\2683";
 }
 
 .card.num-6 .mark:after,
@@ -206,6 +207,6 @@
   background:#E6CA1E;
 }
 
-.card.num-wild .mark:after{
+/* .card.num-wild .mark:after{
   background: black;
-}
+} */

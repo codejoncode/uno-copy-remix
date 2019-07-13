@@ -35,13 +35,13 @@ const generateDeck = (decksToGenerate = 1) => {
         }
       } else if (index === SKIP) {
         for (let color of colors) {
-          deck.push({ number: "skip", color, cardValue: index, cardClass: "skip" });
-          deck.push({ number: "skip", color, cardValue: index, cardClass: "skip" });
+          deck.push({ number: "\u2298", color, cardValue: index, cardClass: "skip" });
+          deck.push({ number: "\u2298", color, cardValue: index, cardClass: "skip" });
         }
       } else if (index === REVERSE) {
         for (let color of colors) {
-          deck.push({ number: "reverse", color, cardValue: index, cardClass: "reverse" });
-          deck.push({ number: "reverse", color, cardValue: index, cardClass: "reverse" });
+          deck.push({ number: "\u27FA", color, cardValue: index, cardClass: "reverse" });
+          deck.push({ number: "\u27FA", color, cardValue: index, cardClass: "reverse" });
         }
       } else if (index === DRAW2) {
         //need two of each color.

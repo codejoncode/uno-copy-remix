@@ -156,15 +156,15 @@
 }
 .card.num-wild:before,
 .card.num-wild:after{
-  content: "\#128397";
+  content: "\128397";
 }
 .card.num-skip:before,
 .card.num-skip:after{
-  content: '\02297';
+  content: '\02298';
 }
 .card.num-reverse:before,
 .card.num-reverse:after{
-  content: '\8635';
+  content: '\027FA';
 }
 
 .card.num-draw2:before,

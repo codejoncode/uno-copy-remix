@@ -8,8 +8,11 @@ const MainBoard = ({topCard}) => {
                 <Card card = {topCard}/>
             </div>
         )
+    } else {
+        return (
+            <div></div>
+        )
     }
-
 }
 
 export default MainBoard;

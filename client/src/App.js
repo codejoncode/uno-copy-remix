@@ -3,6 +3,7 @@ import './App.css';
 import startGame from "./Functions/startGame";
 import Card from "./Components/Card";
 import SideBar from './Components/SideBar';
+import MainBoard from './Components/MainBoard';
 
 class App extends Component {
   state = {
@@ -23,6 +24,12 @@ class App extends Component {
 
   }
 
+  pickUp = (playerInstance, playerChoosesTo) => () => {
+
+    console.log(`${playerInstance.name} chooses to pickup.`);
+    this.state.game.mainGamePlay(playerInstance, playerChoosesTo)
+  }
+
   render(){
     const {gameStarted, currentPlayer} = this.state; 
     
@@ -31,6 +38,7 @@ class App extends Component {
       <div>
         {gameStarted && <SideBar players = {this.state.game.players} activePlayer = {currentPlayer}/>}
       { !gameStarted && <button onClick = {this.newGame}>Start Game</button>}
+      {gameStarted &&  <MainBoard   topCard = {this.state.game.topCard}/> }
       {gameStarted && currentPlayer &&
         <div>
           {/* only the player logged in as this player should see the cards faces will modify this later down the line */}
@@ -42,7 +50,7 @@ class App extends Component {
         }
         <br/>
         {gameStarted && currentPlayer && 
-        <div><button>Play</button> <button>Select Card</button> <button>Pick Up</button></div> }
+        <div><button>Play</button> <button>Select Card</button> <button onClick = {this.pickUp(currentPlayer, "pickup")}>Pick Up</button> <button>next player</button></div> }
         {currentPlayer && currentPlayer.hand < 2 && <button>Call One</button>}
       </div>
     );

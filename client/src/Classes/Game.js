@@ -7,9 +7,12 @@ const DRAW2 = 12;
 const WILD = 13;
 const DRAW4 = 14;
 class Game {
-  constructor(playersPlaying, decksToGenerate = 1) {
+  constructor(numberOfplayersPlaying, decksToGenerate = 1) {
+    /**
+     * numberofPlayersPlaying should be an int same with decksTogenerate
+     */
     this.decksToGenerate = decksToGenerate;
-    this.playersPlaying = playersPlaying;
+    this.numberOfplayersPlaying = numberOfplayersPlaying;
     this.deck = [];
     this.playedPile = [];
     this.topCard = null;
@@ -160,12 +163,12 @@ class Game {
     this.skippingAPlayer();
     if (this.direction) {
       this.playerIndex =
-        (this.playerIndex + this.increment) % this.playersPlaying;
+        (this.playerIndex + this.increment) %   this.numberOfplayersPlaying;
       this.increment = 0;
       this.skips = 0;
     } else {
       this.playerIndex =
-        (this.playerIndex - this.increment) % this.playersPlaying;
+        (this.playerIndex - this.increment) %   this.numberOfplayersPlaying;
       this.increment = 0;
       this.skips = 0;
     }

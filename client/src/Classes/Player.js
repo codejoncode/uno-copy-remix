@@ -185,3 +185,5 @@ class Player {
     //decrement the players hand
   }
 }
+
+export default Player;

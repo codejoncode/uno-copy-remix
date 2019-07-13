@@ -210,3 +210,7 @@
 /* .card.num-wild .mark:after{
   background: black;
 } */
+
+.boldActivePlayer {
+  font-weight: bold;
+}

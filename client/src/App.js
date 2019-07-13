@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import './App.css';
 import startGame from "./Functions/startGame";
 import Card from "./Components/Card";
+import SideBar from './Components/SideBar';
 
 class App extends Component {
   state = {
@@ -24,9 +25,11 @@ class App extends Component {
 
   render(){
     const {gameStarted, currentPlayer} = this.state; 
+    
     console.log(currentPlayer);
     return (
       <div>
+        {gameStarted && <SideBar players = {this.state.game.players} activePlayer = {currentPlayer}/>}
       { !gameStarted && <button onClick = {this.newGame}>Start Game</button>}
       {gameStarted && currentPlayer &&
         <div>

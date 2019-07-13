@@ -65,10 +65,10 @@ const generateDeck = (decksToGenerate = 1) => {
         }
       } else if (index === WILD) {
         // wild
-        const objWild1 = { number: "\u1F308", color: "black", cardValue: index, cardClass : "wild" };
-        const objWild2 = { number: "\u1F308", color: "black", cardValue: index, cardClass : "wild" };
-        const objWild3 = { number: "\u1F308", color: "black", cardValue: index, cardClass : "wild" };
-        const objWild4 = { number: "\u1F308", color: "black", cardValue: index, cardClass : "wild" };
+        const objWild1 = { number: "\u1f308", color: "black", cardValue: index, cardClass : "wild" };
+        const objWild2 = { number: "\u1f308", color: "black", cardValue: index, cardClass : "wild" };
+        const objWild3 = { number: "\u1f308", color: "black", cardValue: index, cardClass : "wild" };
+        const objWild4 = { number: "\u1f308", color: "black", cardValue: index, cardClass : "wild" };
         const addIns = [objWild1, objWild2, objWild3, objWild4];
         for (let card of addIns) {
           deck.push(card);

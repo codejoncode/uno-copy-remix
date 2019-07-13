@@ -31,17 +31,17 @@ const generateDeck = (decksToGenerate = 1) => {
     for (let index = 0; index < 15; index++) {
       if (index === 0) {
         for (let color of colors) {
-          deck.push({ number: index, color, cardValue: index });
+          deck.push({ number: index, color, cardValue: index, cardClass: index });
         }
       } else if (index === SKIP) {
         for (let color of colors) {
-          deck.push({ number: "skip", color, cardValue: index });
-          deck.push({ number: "skip", color, cardValue: index });
+          deck.push({ number: "skip", color, cardValue: index, cardClass: "skip" });
+          deck.push({ number: "skip", color, cardValue: index, cardClass: "skip" });
         }
       } else if (index === REVERSE) {
         for (let color of colors) {
-          deck.push({ number: "reverse", color, cardValue: index });
-          deck.push({ number: "reverse", color, cardValue: index });
+          deck.push({ number: "reverse", color, cardValue: index, cardClass: "reverse" });
+          deck.push({ number: "reverse", color, cardValue: index, cardClass: "reverse" });
         }
       } else if (index === DRAW2) {
         //need two of each color.
@@ -50,23 +50,25 @@ const generateDeck = (decksToGenerate = 1) => {
             number: "+2",
             color,
             drawValue: 2,
-            cardValue: index
+            cardValue: index,
+            cardClass: "draw2"
           };
           const objDraw2_2 = {
             number: "+2",
             color,
             drawValue: 2,
-            cardValue: index
+            cardValue: index,
+            cardClass: "draw2"
           };
           deck.push(objDraw2_1);
           deck.push(objDraw2_2);
         }
       } else if (index === WILD) {
         // wild
-        const objWild1 = { number: "wild", color: "black", cardValue: index };
-        const objWild2 = { number: "wild", color: "black", cardValue: index };
-        const objWild3 = { number: "wild", color: "black", cardValue: index };
-        const objWild4 = { number: "wild", color: "black", cardValue: index };
+        const objWild1 = { number: "wild", color: "black", cardValue: index, cardClass : "wild" };
+        const objWild2 = { number: "wild", color: "black", cardValue: index, cardClass : "wild" };
+        const objWild3 = { number: "wild", color: "black", cardValue: index, cardClass : "wild" };
+        const objWild4 = { number: "wild", color: "black", cardValue: index, cardClass : "wild" };
         const addIns = [objWild1, objWild2, objWild3, objWild4];
         for (let card of addIns) {
           deck.push(card);
@@ -77,25 +79,29 @@ const generateDeck = (decksToGenerate = 1) => {
           number: "+4",
           color: "black",
           drawValue: 4,
-          cardValue: index
+          cardValue: index,
+          cardClass : "draw4"
         };
         const objDraw4_2 = {
           number: "+4",
           color: "black",
           drawValue: 4,
-          cardValue: index
+          cardValue: index,
+          cardClass : "draw4"
         };
         const objDraw4_3 = {
           number: "+4",
           color: "black",
           drawValue: 4,
-          cardValue: index
+          cardValue: index,
+          cardClass : "draw4",
         };
         const objDraw4_4 = {
           number: "+4",
           color: "black",
           drawValue: 4,
-          cardValue: index
+          cardValue: index,
+          cardClass : "draw4"
         };
         const addIns = [objDraw4_1, objDraw4_2, objDraw4_3, objDraw4_4];
         for (let card of addIns) {
@@ -103,8 +109,8 @@ const generateDeck = (decksToGenerate = 1) => {
         }
       } else {
         for (let color of colors) {
-          deck.push({ number: index, color, cardValue: index });
-          deck.push({ number: index, color, cardValue: index });
+          deck.push({ number: index, color, cardValue: index, cardClass: index });
+          deck.push({ number: index, color, cardValue: index, cardClass: index });
         }
       }
     }

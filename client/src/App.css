@@ -1,37 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 @import url(https://fonts.googleapis.com/css?family=Source+Sans+Pro:900);
 
 .card {
@@ -135,6 +101,9 @@
 .card.yellow .inner{
   background:#E6CA1E;
 }
+.card.black .inner{
+  background: black;
+}
 
 .card.num-0:before,
 .card.num-0:after{
@@ -185,6 +154,28 @@
 .card.num-9:after{
   content:"9";
 }
+.card.num-wild:before,
+.card.num-wild:after{
+  content: "\#128397";
+}
+.card.num-skip:before,
+.card.num-skip:after{
+  content: '\02297';
+}
+.card.num-reverse:before,
+.card.num-reverse:after{
+  content: '\8635';
+}
+
+.card.num-draw2:before,
+.card.num-draw2:after{
+  content: "+2";
+}
+
+.card.num-draw4:before,
+.card.num-draw4:after{
+  content: "+4";
+}
 
 .card.num-6 .mark:after,
 .card.num-9 .mark:after{
@@ -213,4 +204,8 @@
 .card.num-6.yellow .mark:after,
 .card.num-9.yellow .mark:after{
   background:#E6CA1E;
+}
+
+.card.num-wild .mark:after{
+  background: black;
 }

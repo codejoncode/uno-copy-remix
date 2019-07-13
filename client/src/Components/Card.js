@@ -4,7 +4,7 @@ import React from "react";
 const Card = ({ card }) => {
 
   return (
-    <div className = {`card num-${card.number} ${card.color}`}>
+    <div className = {`card num-${card.cardClass} ${card.color}`}>
       <span className="inner">
         <span className="mark">{card.number}</span>
       </span>

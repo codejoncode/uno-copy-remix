@@ -67,7 +67,7 @@ class Game {
               // wild card
               this.pickColorToChangeTo();
             } else if (card.cardValue === DRAW4) {
-              this.drawFlag(card.cardValue);
+              this.drawFlag(card.drawValue);
               this.pickColorToChangeTo();
             }
 
@@ -77,7 +77,7 @@ class Game {
               this.topCard = card;
               const currentColor =
                 this.colorIs === this.topCard.color ? this.colorIs : this.topCard.color;
-              this.colorIs = currentColor;
+              this.colorIs = currentColor !== "black" ?  currentColor: this.colorIs;
               console.log(`The current color is ${this.colorIs}`);
               this.nextPlayersTurn();
             }
@@ -126,7 +126,7 @@ class Game {
         // so this is a number we hope and should check for
         if (typeof playerChoosesTo === "number") {
           const drawFlag = this.drawTotal > 0 ? true : false;
-          player.gatherPlayersCards(playerChoosesTo, this.topCard, drawFlag);
+          player.gatherPlayersCards(playerChoosesTo, this.topCard, drawFlag, this.colorIs);
         } else {
           console.log(`${playerChoosesTo} is not a valid option currently`);
         }
@@ -165,7 +165,8 @@ class Game {
         this.userStillHasChoice = false; 
         this.nextPlayersTurn(); 
       }
-      this.drawTotal = 0;
+
+      this.drawTotal = 0;// should reset it 
       if (this.deck.length <= 10) {
         this.shuffleCardPileBackIntoDeck();
       }
@@ -296,6 +297,7 @@ class Game {
 
   drawFlag(drawAmount) {
     //this will throw a flag that will either check for a draw for the next player or  prepare to issue that person cards
+    console.log(`This is the current draw amount ${this.drawTotal} + ${drawAmount}`); 
     this.drawTotal += drawAmount;
     if (this.deck.length <= this.drawTotal + 10) {
       this.shuffleCardPileBackIntoDeck();

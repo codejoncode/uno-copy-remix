@@ -59,7 +59,7 @@ class Player {
     }
   }
 
-  gatherPlayersCards(indexArray, topCard, drawFlag = false) {
+  gatherPlayersCards(indexArray, topCard, drawFlag = false, currentColor = null) {
     /**
      * draw flag is false by default  so before gathering players cards it will be called to check if the drawTotal is > than zero
      * The first check is to see if the user  has a draw.
@@ -115,7 +115,11 @@ class Player {
           this.playerTopCard = card;
           this.indexCache.push(indexArray);
         }
-      } else if (
+      } else if (card.color === currentColor){
+        this.playerTopCard = card; 
+        this.indexCache.push(indexArray);
+        this.gatherForPlay.push(card); 
+      }else if (
         this.isCountingPossible &&
         (card.cardValue === topCard.cardValue - 1 ||
           card.cardValue === topCard.cardValue + 1)
@@ -158,7 +162,8 @@ class Player {
         (this.isCountingPossible &&
           (card.cardValue === this.playerTopCard.cardValue - 1 ||
             card.cardValue === this.playerTopCard.cardValue + 1)) ||
-        (this.playerTopCard === 0 && card.cardValue === 9 || this.playerTopCard === 9 && card.cardValue === 0)
+        ((this.playerTopCard === 0 && card.cardValue === 9) ||
+          (this.playerTopCard === 9 && card.cardValue === 0))
       ) {
         console.log("potential count");
         if (
@@ -181,9 +186,13 @@ class Player {
             this.playerTopCard = card;
           }
         }
+      } else if (card.color === currentColor){
+        this.playerTopCard = card; 
+        this.indexCache.push(indexArray);
+        this.gatherForPlay.push(card); 
       }
     }
-    //MAYBE THIS SHOULD ACTUALLY BE IN THE PLAY TURN
+   
   }
 
   removeCardsPlayingFromHand() {
@@ -215,24 +224,24 @@ class Player {
       const gatheredCardsForPlay = [...this.gatherForPlay];
       //check if countUpOrDown  has been trigger if it has
       //if (this.countUpOrDown) {
-        //only if countingDistinct  is greater than or equal to 3
-        //if (this.countingDistinct >= 3) {
-          //then it should be good play the cards   return false for no errors and the cards to play
-          //reset first
-          //this.removeCardsPlayingFromHand();
-          //return [false, gatheredCardsForPlay];
-        //} else {
-          //this.resetBackToPrevious();
-          //  return true error
-          //return [
-           // true,
-           // "Issue with play in order to count up or down you need to have 3 distinct numbers. Meaning you should have 3 individual numbers (not just cards) that counts up or counts down"
-          //];
-        //}
+      //only if countingDistinct  is greater than or equal to 3
+      //if (this.countingDistinct >= 3) {
+      //then it should be good play the cards   return false for no errors and the cards to play
+      //reset first
+      //this.removeCardsPlayingFromHand();
+      //return [false, gatheredCardsForPlay];
       //} else {
-        //false return for no errors and cards to play.
-        this.removeCardsPlayingFromHand();
-        return [false, gatheredCardsForPlay];
+      //this.resetBackToPrevious();
+      //  return true error
+      //return [
+      // true,
+      // "Issue with play in order to count up or down you need to have 3 distinct numbers. Meaning you should have 3 individual numbers (not just cards) that counts up or counts down"
+      //];
+      //}
+      //} else {
+      //false return for no errors and cards to play.
+      this.removeCardsPlayingFromHand();
+      return [false, gatheredCardsForPlay];
       //}
     } else {
       this.resetBackToPrevious(); // though shouldn't be needed if user didn't select a card everything should be at the begining stage.

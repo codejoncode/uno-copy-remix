@@ -211,7 +211,7 @@ class Game {
   }
 
   skippingAPlayer() {
-    if (playersLeft(this.players) > 2 && this.reverseOrSkip) {
+    if (playersLeft(this.players) == 2 && this.reverseOrSkip) {
       this.increment = 0;
     } else {
       this.increment = this.skips + 1;

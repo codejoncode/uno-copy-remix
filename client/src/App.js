@@ -52,8 +52,8 @@ class App extends Component {
     await this.state.game.mainGamePlay(currentPlayer, index);
     const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
     this.setState({currentPlayer, currentUsersHandAttempt})
-
   }
+  
   clearCard = (index) => async () => {
     console.log("clearing card");
     //this function is for if the player makes a valid move but changes their mind and would like to play something differently. 

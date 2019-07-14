@@ -200,9 +200,16 @@ class Game {
       this.userStillHasChoice = true;
       this.pickUpAllowed = true;  
     } else {
-      this.playerIndex =
-        ((this.playerIndex - this.increment) %   this.numberOfplayersPlaying) < 0 ? this.numberOfplayersPlaying - ((this.playerIndex - this.increment) %   this.numberOfplayersPlaying) : this.playerIndex;
-      this.playerIndex =  this.player
+      //this.playerIndex =
+        //((this.playerIndex - this.increment) %   this.numberOfplayersPlaying) < 0 ? this.numberOfplayersPlaying - ((this.playerIndex - this.increment) %   this.numberOfplayersPlaying) : this.playerIndex % this.numberOfplayersPlaying;
+      while(this.increment > 0){
+        console.log(`decrementing the player index currently at ${this.playerIndex}`)
+        this.playerIndex -= 1; 
+        if(this.playerIndex < 0){
+          this.playerIndex = this.numberOfplayersPlaying - 1; 
+        }
+        this.increment -= 1; 
+      }
       this.increment = 0;
       this.skips = 0;
       this.userStillHasChoice = true;

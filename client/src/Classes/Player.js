@@ -71,9 +71,10 @@ class Player {
     console.log(this.gatherForPlay);
     if (
       this.playerTopCard &&
-      (drawFlag === true ||
-        this.playerTopCard.cardValue === DRAW2 ||
-        this.playerTopCard === DRAW4)
+      // (drawFlag === true ||
+      //   this.playerTopCard.cardValue === DRAW2 ||
+      //   this.playerTopCard === DRAW4)
+      drawFlag === true
     ) {
       let userHasADraw = false;
       for (let card of this.hand) {

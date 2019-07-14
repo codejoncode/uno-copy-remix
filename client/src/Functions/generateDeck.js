@@ -33,7 +33,7 @@ const generateDeck = (decksToGenerate = 1) => {
     for (let index = 0; index < 15; index++) {
       if (index === 0) {
         for (let color of colors) {
-          deck.push({ number: index, color, cardValue: index, cardClass: index, uniqueNumber});
+          deck.push({ number: index, color, cardValue: index, cardClass: index, uniqueNumber, alias: 10, countable: true});
           uniqueNumber++;
         }
       } else if (index === SKIP) {
@@ -123,8 +123,8 @@ const generateDeck = (decksToGenerate = 1) => {
         }
       } else {
         for (let color of colors) {
-          deck.push({ number: index, color, cardValue: index, cardClass: index, uniqueNumber: uniqueNumber + 1 });
-          deck.push({ number: index, color, cardValue: index, cardClass: index, uniqueNumber: uniqueNumber + 2 });
+          deck.push({ number: index, color, cardValue: index, cardClass: index, uniqueNumber: uniqueNumber + 1, countable: true });
+          deck.push({ number: index, color, cardValue: index, cardClass: index, uniqueNumber: uniqueNumber + 2, countable: true });
           uniqueNumber += 2; 
         }
       }

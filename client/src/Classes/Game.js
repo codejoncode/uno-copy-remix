@@ -200,7 +200,8 @@ class Game {
       this.pickUpAllowed = true;  
     } else {
       this.playerIndex =
-        (this.playerIndex - this.increment) %   this.numberOfplayersPlaying;
+        ((this.playerIndex - this.increment) %   this.numberOfplayersPlaying) < 0 ? this.numberOfplayersPlaying - ((this.playerIndex - this.increment) %   this.numberOfplayersPlaying) : this.playerIndex;
+      this.playerIndex =  this.player
       this.increment = 0;
       this.skips = 0;
       this.userStillHasChoice = true;

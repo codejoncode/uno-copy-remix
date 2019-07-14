@@ -31,6 +31,9 @@ class Player {
         // only if its not a 10 11 12 13 or 14
         if (card.cardValue >= 0 && card.cardValue <= 9) {
           cache[card.cardValue] = card.uniqueNumber;
+          if(card.alias){
+            cache[card.alias] = card.uniqueNumber;
+          }
         }
       }
       //now loop back and check if three distinct numbers are available
@@ -89,6 +92,9 @@ class Player {
     console.log(`The current color is ${currentColor}`)
 
     this.error = null; //take away any errors if present
+    console.log("beginning")
+    console.log(this.indexCache);
+    console.log(this.gatherForPlay);
     if (this.indexCache.includes(indexArray) === false) {
       const card = this.hand[indexArray];
       console.log("card attempting to gather for play");
@@ -126,14 +132,18 @@ class Player {
         }
         //now check four possible count
         else if (this.isCountingPossible && card.countable) {
+          console.log("counting is possible and card is countable")
           //now check if the matches take place but only if the topCard is countable
+          console.log("card to consider is top card");
+          console.log(topCard);
           if (topCard.countable) {
+            console.log("card countable considering")
             // need 9 8 7   or a 0 9 8 7 or 1 0 9 etc
             // the value 0 can also be used as a 10
             let upOneValue;
             let downOneValue;
             //check if  the card is a 1
-            switch (topCard.cardValue) {
+            switch (Number(topCard.cardValue)) {
               case 0:
                 upOneValue = 1;
                 downOneValue = 9;
@@ -148,17 +158,19 @@ class Player {
                 break;
               case 9:
                 upOneValue = 0;
-                downOneValue = 9; 
+                downOneValue = 8;
+                break; 
               default:
                 upOneValue = topCard.cardValue + 1;
                 downOneValue = topCard.cardValue - 1;
                 break;
             }
-
+            console.log(`upOneValue = ${upOneValue} and downOneValue ${downOneValue}`)
             if (
               card.cardValue === upOneValue ||
               card.cardValue === downOneValue
             ) {
+              console.log("count was performed")
               this.countUpOrDown = true;
               this.placeCardInPosition(card, indexArray);
             }

@@ -49,8 +49,9 @@ class Game {
     /**
      * againstPlayer is for when a player doesn't call uno  and anotehr player chooses to call this against them this will issue the againstPlayer 2 cards should be an instance of the playerClass   this button would only appear in cases where the person is down to one card. and has not called uno.
      */
-    if(this.state.game.checkIfGameOver()){
+    if(this.checkIfGameOver() === false){
       this.error = "Game Over";
+      console.log("things breaking")
       return;
     }
     switch (playerChoosesTo) {
@@ -112,6 +113,7 @@ class Game {
         const pickUpAmount = this.drawTotal > 0 ? this.drawTotal : 1;
         
         if(this.drawTotal > 0){
+          console.log(`${this.drawTotal} cards to be picked up`)
           this.issueFromDeck(player, pickUpAmount);
           this.nextPlayersTurn();// shouldn't automatically be the next players turn. 
           //unless user is picking up a draw total. 
@@ -179,7 +181,8 @@ class Game {
   }
 
   issueFromDeck(player, amount = 1) {
-    if(this.state.game.checkIfGameOver()){
+    if(this.checkIfGameOver() === false){
+      console.log("things breaking")
       this.error = "Game Over";
       return;
     }
@@ -197,10 +200,11 @@ class Game {
       if(this.drawTotal > 0){
         //this indicates that the playeer was picking up a draw Total therefore there turn is over. 
         this.userStillHasChoice = false; 
+        this.drawTotal = 0; 
         this.nextPlayersTurn(); 
       }
 
-      this.drawTotal = 0;// should reset it 
+      // this.drawTotal = 0;// should reset it 
       if (this.deck.length <= 10) {
         this.shuffleCardPileBackIntoDeck();
       }
@@ -214,6 +218,7 @@ class Game {
 
   addToSkips() {
     if(playersLeft(this.players) > 2){
+      console.log("Added to skips");
       this.skips += 1; 
     }
     
@@ -221,14 +226,16 @@ class Game {
 
   skippingAPlayer() {
     if (playersLeft(this.players) == 2 && this.reverseOrSkip) {
+      console.log("only two players left and a skip or reverse played")
       this.increment = 0;
     } else {
       this.increment = this.skips + 1;
+      console.log(`skips ${this.skips} + 1 `)
     }
   }
 
   nextPlayersTurn() {
-    if(this.state.game.checkIfGameOver()){
+    if(this.checkIfGameOver() === false){
       this.error = "Game Over";
       return;
     }
@@ -253,7 +260,7 @@ class Game {
       }
       this.resetGameFieldsToDefault();
     }
-    console.log(this.playersIndex);
+    console.log(this.playerIndex);
   }
 
   changeDirection() {

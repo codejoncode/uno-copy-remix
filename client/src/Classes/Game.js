@@ -49,6 +49,10 @@ class Game {
     /**
      * againstPlayer is for when a player doesn't call uno  and anotehr player chooses to call this against them this will issue the againstPlayer 2 cards should be an instance of the playerClass   this button would only appear in cases where the person is down to one card. and has not called uno.
      */
+    if(this.state.game.checkIfGameOver()){
+      this.error = "Game Over";
+      return;
+    }
     switch (playerChoosesTo) {
       case "play":
         const checkForErrors = player.playTurn();
@@ -175,6 +179,10 @@ class Game {
   }
 
   issueFromDeck(player, amount = 1) {
+    if(this.state.game.checkIfGameOver()){
+      this.error = "Game Over";
+      return;
+    }
     console.log(`${player.name} getting ${amount} ${amount > 1 ? "cards" : "card"}`)
     //story user has to pick up or chooses to pick up still can drop down though. // amount should be either 1 by default or the drawTotal
     //player should be an instance of Player class
@@ -220,6 +228,10 @@ class Game {
   }
 
   nextPlayersTurn() {
+    if(this.state.game.checkIfGameOver()){
+      this.error = "Game Over";
+      return;
+    }
     this.skippingAPlayer();
     console.log(this.playerIndex); 
     if (this.direction) {

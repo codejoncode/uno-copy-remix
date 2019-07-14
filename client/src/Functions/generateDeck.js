@@ -27,21 +27,26 @@ const generateDeck = (decksToGenerate = 1) => {
    *
    */
   const colors = ["blue", "yellow", "green", "red"];
+  let uniqueNumber = 0; // could be useful because some cards are exactly the same and so have to know if there is a difference
+
   for (let d = 0; d < decksToGenerate; d++) {
     for (let index = 0; index < 15; index++) {
       if (index === 0) {
         for (let color of colors) {
-          deck.push({ number: index, color, cardValue: index, cardClass: index });
+          deck.push({ number: index, color, cardValue: index, cardClass: index, uniqueNumber});
+          uniqueNumber++;
         }
       } else if (index === SKIP) {
         for (let color of colors) {
-          deck.push({ number: "\u2298", color, cardValue: index, cardClass: "skip" });
-          deck.push({ number: "\u2298", color, cardValue: index, cardClass: "skip" });
+          deck.push({ number: "\u2298", color, cardValue: index, cardClass: "skip", uniqueNumber: uniqueNumber + 1});
+          deck.push({ number: "\u2298", color, cardValue: index, cardClass: "skip", uniqueNumber: uniqueNumber + 2 });
+          uniqueNumber += 2; 
         }
       } else if (index === REVERSE) {
         for (let color of colors) {
-          deck.push({ number: "\u267B", color, cardValue: index, cardClass: "reverse" });
-          deck.push({ number: "\u267B", color, cardValue: index, cardClass: "reverse" });
+          deck.push({ number: "\u267B", color, cardValue: index, cardClass: "reverse", uniqueNumber: uniqueNumber + 1 });
+          deck.push({ number: "\u267B", color, cardValue: index, cardClass: "reverse", uniqueNumber: uniqueNumber + 2 });
+          uniqueNumber += 2;
         }
       } else if (index === DRAW2) {
         //need two of each color.
@@ -51,24 +56,28 @@ const generateDeck = (decksToGenerate = 1) => {
             color,
             drawValue: 2,
             cardValue: index,
-            cardClass: "draw2"
+            cardClass: "draw2",
+            uniqueNumber: uniqueNumber + 1
           };
           const objDraw2_2 = {
             number: "\u2681",
             color,
             drawValue: 2,
             cardValue: index,
-            cardClass: "draw2"
+            cardClass: "draw2",
+            uniqueNumber: uniqueNumber + 2
           };
           deck.push(objDraw2_1);
           deck.push(objDraw2_2);
+          uniqueNumber += 2; 
         }
       } else if (index === WILD) {
         // wild
-        const objWild1 = { number: "\u1f308", color: "black", cardValue: index, cardClass : "wild" };
-        const objWild2 = { number: "\u1f308", color: "black", cardValue: index, cardClass : "wild" };
-        const objWild3 = { number: "\u1f308", color: "black", cardValue: index, cardClass : "wild" };
-        const objWild4 = { number: "\u1f308", color: "black", cardValue: index, cardClass : "wild" };
+        const objWild1 = { number: "\u1f308", color: "black", cardValue: index, cardClass : "wild", uniqueNumber: uniqueNumber + 1 };
+        const objWild2 = { number: "\u1f308", color: "black", cardValue: index, cardClass : "wild", uniqueNumber: uniqueNumber + 2 };
+        const objWild3 = { number: "\u1f308", color: "black", cardValue: index, cardClass : "wild", uniqueNumber: uniqueNumber + 3 };
+        const objWild4 = { number: "\u1f308", color: "black", cardValue: index, cardClass : "wild", uniqueNumber: uniqueNumber + 4 };
+        uniqueNumber += 4; 
         const addIns = [objWild1, objWild2, objWild3, objWild4];
         for (let card of addIns) {
           deck.push(card);
@@ -80,14 +89,16 @@ const generateDeck = (decksToGenerate = 1) => {
           color: "black",
           drawValue: 4,
           cardValue: index,
-          cardClass : "draw4"
+          cardClass : "draw4",
+          uniqueNumber: uniqueNumber + 1, 
         };
         const objDraw4_2 = {
           number: "\u2683",
           color: "black",
           drawValue: 4,
           cardValue: index,
-          cardClass : "draw4"
+          cardClass : "draw4",
+          uniqueNumber: uniqueNumber + 2,
         };
         const objDraw4_3 = {
           number: "\u2683",
@@ -95,22 +106,26 @@ const generateDeck = (decksToGenerate = 1) => {
           drawValue: 4,
           cardValue: index,
           cardClass : "draw4",
+          uniqueNumber: uniqueNumber + 3,
         };
         const objDraw4_4 = {
           number: "\u2683",
           color: "black",
           drawValue: 4,
           cardValue: index,
-          cardClass : "draw4"
+          cardClass : "draw4",
+          uniqueNumber: uniqueNumber + 4
         };
+        uniqueNumber += 4; 
         const addIns = [objDraw4_1, objDraw4_2, objDraw4_3, objDraw4_4];
         for (let card of addIns) {
           deck.push(card);
         }
       } else {
         for (let color of colors) {
-          deck.push({ number: index, color, cardValue: index, cardClass: index });
-          deck.push({ number: index, color, cardValue: index, cardClass: index });
+          deck.push({ number: index, color, cardValue: index, cardClass: index, uniqueNumber: uniqueNumber + 1 });
+          deck.push({ number: index, color, cardValue: index, cardClass: index, uniqueNumber: uniqueNumber + 2 });
+          uniqueNumber += 2; 
         }
       }
     }

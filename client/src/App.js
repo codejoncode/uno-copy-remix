@@ -11,7 +11,7 @@ class App extends Component {
     gameStarted: false,
     currentPlayer: null, 
     currentUsersHandAttempt : [],
-    
+
   }
 
   newGame = async () => {
@@ -22,12 +22,21 @@ class App extends Component {
     await this.setState({game, gameStarted: true, currentPlayer: game.players[game.playerIndex]});
   }
 
-  useTurn = () => {
-
+  makePlay = () => async () => {
+    console.log("make a  play");
+    await this.state.game.mainGamePlay(this.state.game.players[this.state.game.playerIndex], "play");
+    console.log(`This is the playerIndex for the game ${this.state.game.playerIndex}`);
+    const currentPlayer = await this.state.game.players[this.state.game.playerIndex];
+    const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
+    this.setState({currentPlayer, currentUsersHandAttempt });
   }
-  nextPlayer = () => {
+  nextPlayer = () => async () => {
     //check that the users has made a pick up at least before they click nextPlayer
     //I don't want to remove the choice from the user they can choose to not play at all. 
+    this.state.game.nextPlayersTurn(); 
+    const currentPlayer = await this.state.game.players[this.state.game.playerIndex];
+    const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
+    this.setState({currentPlayer, currentUsersHandAttempt });
 
   }
 
@@ -37,15 +46,38 @@ class App extends Component {
     this.state.game.mainGamePlay(playerInstance, playerChoosesTo)
     this.setState({currentPlayer: this.state.game.players[this.state.game.playerIndex]})
   }
+  selectingCard = (index) => async () => {
+    console.log(`Selecting index ${index}`);
+    const currentPlayer = await this.state.game.players[this.state.game.playerIndex]
+    await this.state.game.mainGamePlay(currentPlayer, index);
+    const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
+    this.setState({currentPlayer, currentUsersHandAttempt})
+
+  }
+  clearCard = (index) => async () => {
+    console.log("clearing card");
+    //this function is for if the player makes a valid move but changes their mind and would like to play something differently. 
+    const currentPlayer = await this.state.game.players[this.state.game.playerIndex];
+    await currentPlayer.removeFromPlayersPlay(index);
+    const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
+
+    this.setState({currentPlayer, currentUsersHandAttempt});
+  }
+  dummyFunction = () => {
+    //dummy function will just log to the console testing why the connection isn't there for another  function 
+    console.log("dummy triggerd")
+  }
 
   render(){
-    const {gameStarted} = this.state; 
+    const {gameStarted, currentUsersHandAttempt } = this.state; 
     const currentPlayer = this.state.game && this.state.game.players[this.state.game.playerIndex];
     
     console.log(currentPlayer);
+    const topCard = this.state.game && this.state.game.topCard; 
+    console.log(topCard);
     return (
       <div>
-        {gameStarted && <SideBar players = {this.state.game.players} activePlayer = {currentPlayer}/>}
+      {gameStarted && <SideBar players = {this.state.game.players} activePlayer = {currentPlayer}/>}
       { !gameStarted && <button onClick = {this.newGame}>Start Game</button>}
       {gameStarted &&  <MainBoard   topCard = {this.state.game.topCard}/> }
       <br/>
@@ -59,17 +91,33 @@ class App extends Component {
       <br/>
       {gameStarted && currentPlayer &&
         <div>
+          {gameStarted && currentPlayer && 
+        <div><button onClick = {this.makePlay()}>Play</button> <button >Select Card</button> <button onClick = {this.pickUp(currentPlayer, "pickup")}>Pick Up</button> <button onClick = {this.nextPlayer()}>next player</button></div> }
+        {currentPlayer && currentPlayer.hand < 2 && <button>Call One</button>}
+         <br/>
+         <br/>
+         <br/>
+         <br/>
+         <br/>
           {/* only the player logged in as this player should see the cards faces will modify this later down the line */}
-          {currentPlayer && currentPlayer.hand.map((card, index) => <Card key = {index} card = {card}/>)}
+          {currentPlayer && currentPlayer.hand.map((card, index) => <div className = "clickableCard" onClick = {this.selectingCard(index)} key = {index}><Card  card = {card} /></div>)}
         </div>
       }
        {gameStarted && !currentPlayer &&
          <button onClick = {this.newGame}>Start Game</button>
         }
         <br/>
-        {gameStarted && currentPlayer && 
-        <div><button>Play</button> <button>Select Card</button> <button onClick = {this.pickUp(currentPlayer, "pickup")}>Pick Up</button> <button>next player</button></div> }
-        {currentPlayer && currentPlayer.hand < 2 && <button>Call One</button>}
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        {currentUsersHandAttempt  && currentUsersHandAttempt.map((card, index) => <div className = "clickableCard" key = {index} onClick = {this.clearCard(index)}><Card card={card} key = {index} /></div>)}
+        
       </div>
     );
   }

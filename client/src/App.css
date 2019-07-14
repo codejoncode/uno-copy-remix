@@ -214,3 +214,7 @@
 .boldActivePlayer {
   font-weight: bold;
 }
+
+.clickableCard :hover {
+  cursor: pointer; 
+}

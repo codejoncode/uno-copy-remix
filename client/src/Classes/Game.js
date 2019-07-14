@@ -126,7 +126,11 @@ class Game {
         // so this is a number we hope and should check for
         if (typeof playerChoosesTo === "number") {
           const drawFlag = this.drawTotal > 0 ? true : false;
-          player.gatherPlayersCards(playerChoosesTo, this.topCard, drawFlag, this.colorIs);
+          if(player.gatherForPlay.length === 0){
+            player.gatherPlayersCards(playerChoosesTo, this.topCard, drawFlag, this.colorIs);
+          } else {
+            player.gatherPlayersCards(playerChoosesTo, player.playerTopCard, drawFlag, this.colorIs);
+          }
         } else {
           console.log(`${playerChoosesTo} is not a valid option currently`);
         }
@@ -260,6 +264,8 @@ class Game {
     while (true) {
       const popOff = this.deck.pop();
       this.topCard = popOff;
+      this.colorIs = this.topCard.color; 
+      console.log(`The color is ${this.colorIs}`);
       if (popOff.cardValue === WILD) {
         //choose random color announce it and keep it going
         this.randomColorSelection();

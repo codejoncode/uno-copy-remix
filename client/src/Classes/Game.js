@@ -39,7 +39,7 @@ class Game {
     this.userStillHasChoice = true; 
     this.defaultAction = null; 
     this.skips = 0; 
-    this.drawTotal = 0; 
+    // this.drawTotal = 0; this shouldn't be in here because the drawTotal carries on to the next player. only reset once picked up
     this.increment = 0; 
     this.pickUpAllowed = true; 
     this.playMade = false; 
@@ -104,6 +104,7 @@ class Game {
         break;
       case "pickup":
         console.log("In game player chooses to pick up")
+        console.log(`This is the drawTotal ${this.drawTotal}`);
         const pickUpAmount = this.drawTotal > 0 ? this.drawTotal : 1;
         
         if(this.drawTotal > 0){

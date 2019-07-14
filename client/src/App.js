@@ -41,13 +41,15 @@ class App extends Component {
   nextPlayer = () => async () => {
     //check that the users has made a pick up at least before they click nextPlayer
     //I don't want to remove the choice from the user they can choose to not play at all. 
-    await this.removePlayersFromGame();
-    await this.state.game.nextPlayersTurn(); 
-    console.log(this.state.game.playerIndex);
-    const currentPlayer = await this.state.game.players[this.state.game.playerIndex];
-    console.log(currentPlayer);
-    const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
-    this.setState({currentPlayer, currentUsersHandAttempt });
+    if(this.state.game.playMade){
+      await this.removePlayersFromGame();
+      await this.state.game.nextPlayersTurn(); 
+      console.log(this.state.game.playerIndex);
+      const currentPlayer = await this.state.game.players[this.state.game.playerIndex];   
+      console.log(currentPlayer);
+      const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
+      this.setState({currentPlayer, currentUsersHandAttempt });
+    }
 
   }
 

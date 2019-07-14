@@ -24,12 +24,25 @@ class Game {
     this.playersRanksArray = [];
     this.colorIs = null;
     this.skips = 0;
+    this.reverseOrSkip = false; 
     this.error = null; // using this to help display errors to the user when they occur instead of returns 
     this.defaultAction = null; // this is when a user has to take a default action no other choice availalbe. 
     this.userStillHasChoice = true; // defaulted to true but can change like when a user has picked up a draw stack. 
     //if a user picks up one card by choice they can still play that card or more. 
     // ^this is the cards that have been played but not reinserted into the deck
     this.pickUpAllowed = true; 
+    this.playMade = false; 
+  }
+  resetGameFieldsToDefault() {
+    this.error = null; 
+    this.reverseOrSkip = false; 
+    this.userStillHasChoice = true; 
+    this.defaultAction = null; 
+    this.skips = 0; 
+    this.drawTotal = 0; 
+    this.increment = 0; 
+    this.pickUpAllowed = true; 
+    this.playMade = false; 
   }
   mainGamePlay(player, playerChoosesTo, againstPlayer = null) {
     // player should be instance of Player Calss playerChoosesTo is their decesion they make   playersCardsToPlay is optional because not all choices requires them to play cards.
@@ -56,9 +69,11 @@ class Game {
             const card = playersCardsToPlay[index];
             //check if reverse change direction if true
             if (card.cardValue === SKIP) {
+              this.reverseOrSkip  = true; 
               this.addToSkips();
             } else if (card.cardValue === REVERSE) {
               //this is the reverse card
+              this.reverseOrSkip  = true; 
               this.changeDirection();
             } else if (card.cardValue === DRAW2) {
               //provide the drawValue to the drawFlag;
@@ -79,6 +94,7 @@ class Game {
                 this.colorIs === this.topCard.color ? this.colorIs : this.topCard.color;
               this.colorIs = currentColor !== "black" ?  currentColor: this.colorIs;
               console.log(`The current color is ${this.colorIs}`);
+              this.removePlayersThatHaveNoMoreCards();// make sure to remove players that can be removed. 
               this.nextPlayersTurn();
             }
           }
@@ -89,13 +105,18 @@ class Game {
       case "pickup":
         console.log("In game player chooses to pick up")
         const pickUpAmount = this.drawTotal > 0 ? this.drawTotal : 1;
-        this.issueFromDeck(player, pickUpAmount);
+        
         if(this.drawTotal > 0){
+          this.issueFromDeck(player, pickUpAmount);
           this.nextPlayersTurn();// shouldn't automatically be the next players turn. 
           //unless user is picking up a draw total. 
           this.drawTotal = 0; 
+        } else if (this.pickUpAllowed){
+          this.issueFromDeck(player, pickUpAmount);
+          this.pickUpAllowed = false; 
+          this.playMade = true;
         } else {
-          
+          this.nextPlayersTurn(); //no drawTotal and pickUp is not allowed go to next players turn
         }
         break;
       case "call uno":
@@ -183,14 +204,17 @@ class Game {
   }
 
   addToSkips() {
-    this.skips += 1;
+    if(playersLeft(this.players) > 2){
+      this.skips += 1; 
+    }
+    
   }
 
   skippingAPlayer() {
-    if (playersLeft(this.players) > 2) {
-      this.increment += this.skips + 1;
-    } else {
+    if (playersLeft(this.players) > 2 && this.reverseOrSkip) {
       this.increment = 0;
+    } else {
+      this.increment = this.skips + 1;
     }
   }
 
@@ -202,10 +226,7 @@ class Game {
       this.playerIndex =
         (this.playerIndex + this.increment) %   this.numberOfplayersPlaying;
       console.log(this.playerIndex); 
-      this.increment = 0;
-      this.skips = 0;
-      this.userStillHasChoice = true;
-      this.pickUpAllowed = true;  
+      this.resetGameFieldsToDefault();
     } else {
       //this.playerIndex =
         //((this.playerIndex - this.increment) %   this.numberOfplayersPlaying) < 0 ? this.numberOfplayersPlaying - ((this.playerIndex - this.increment) %   this.numberOfplayersPlaying) : this.playerIndex % this.numberOfplayersPlaying;
@@ -217,10 +238,7 @@ class Game {
         }
         this.increment -= 1; 
       }
-      this.increment = 0;
-      this.skips = 0;
-      this.userStillHasChoice = true;
-      this.pickUpAllowed = true; 
+      this.resetGameFieldsToDefault();
     }
     console.log(this.playersIndex);
   }

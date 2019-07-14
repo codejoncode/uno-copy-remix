@@ -125,7 +125,7 @@ class Player {
           this.placeCardInPosition(card, indexArray);
         }
         //now check four possible count
-        else if (this.isCountingPossible) {
+        else if (this.isCountingPossible && card.countable) {
           //now check if the matches take place but only if the topCard is countable
           if (topCard.countable) {
             // need 9 8 7   or a 0 9 8 7 or 1 0 9 etc
@@ -162,11 +162,11 @@ class Player {
               this.countUpOrDown = true;
               this.placeCardInPosition(card, indexArray);
             }
-
             //now the above is all the potentials  but another check has to be done the values above cannot be greater than 9 and cannot be less than 0;
           }
         } // if the user has a wild or draw 4
         else if (card.cardValue === WILD || card.cardValue === DRAW4) {
+          console.log("Place this on top wild or draw 4")
           this.placeCardInPosition(card, indexArray);
         }
         //draw2 are covered in color and value but currently are not covered if a draw4 is on top and user places a drw 2  need option for this.
@@ -176,7 +176,7 @@ class Player {
           this.error = "That move is not valid"; 
           console.log(this.error);
         }
-      }
+      } 
     } else {
       //may want to update to the player letting the know the move is invalid
       this.error = "Card already in play";

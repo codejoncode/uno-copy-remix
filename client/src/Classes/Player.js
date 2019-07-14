@@ -95,6 +95,7 @@ class Player {
       console.log(card); 
       //now check if the drawFlag has been raised
       if (drawFlag === true) {
+        console.log("draw flag true")
         //user is required to enter a draw or pick up so check that they have a draw or force automatic pickup.
         let userHasADraw = false;
         for (let card of this.hand) {
@@ -113,6 +114,9 @@ class Player {
       } //end of top condition
       //this is so that the topCard received is considered in comparision
       else {
+        console.log("NO draw flag is present consider other things");
+        console.log(this.gatherForPlay);
+        console.log(this.indexCache);
         //now check if the card.color matches the current color this should help with wild or draw 4's are on top and the color has been selected
         if (this.gatherForPlay.length === 0 && card.color === currentColor) {
           // only care about currentColor if gatherForPlay is empty
@@ -142,6 +146,9 @@ class Player {
                 upOneValue = 9;
                 downOneValue = 7;
                 break;
+              case 9:
+                upOneValue = 0;
+                downOneValue = 9; 
               default:
                 upOneValue = topCard.cardValue + 1;
                 downOneValue = topCard.cardValue - 1;

@@ -14,6 +14,14 @@ class App extends Component {
 
   }
 
+  removePlayersFromGame = () => {
+    //players who no longer have cards should be removed. 
+    let greaterThanZero = this.state.game.checkIfGameOver();
+    if(greaterThanZero > 0){
+      this.state.game.removePlayersThatHaveNoMoreCards();
+    } 
+  }
+
   newGame = async () => {
     console.log("starting new game")
     const {players} = this.state;
@@ -33,8 +41,11 @@ class App extends Component {
   nextPlayer = () => async () => {
     //check that the users has made a pick up at least before they click nextPlayer
     //I don't want to remove the choice from the user they can choose to not play at all. 
-    this.state.game.nextPlayersTurn(); 
+    await this.removePlayersFromGame();
+    await this.state.game.nextPlayersTurn(); 
+    console.log(this.state.game.playerIndex);
     const currentPlayer = await this.state.game.players[this.state.game.playerIndex];
+    console.log(currentPlayer);
     const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
     this.setState({currentPlayer, currentUsersHandAttempt });
 
@@ -53,7 +64,7 @@ class App extends Component {
     const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
     this.setState({currentPlayer, currentUsersHandAttempt})
   }
-  
+
   clearCard = (index) => async () => {
     console.log("clearing card");
     //this function is for if the player makes a valid move but changes their mind and would like to play something differently. 

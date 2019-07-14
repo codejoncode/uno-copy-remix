@@ -196,9 +196,12 @@ class Game {
 
   nextPlayersTurn() {
     this.skippingAPlayer();
+    console.log(this.playerIndex); 
     if (this.direction) {
+      console.log(`This is the increment ${this.increment} this is the number of players playing ${this.numberOfplayersPlaying} `)
       this.playerIndex =
         (this.playerIndex + this.increment) %   this.numberOfplayersPlaying;
+      console.log(this.playerIndex); 
       this.increment = 0;
       this.skips = 0;
       this.userStillHasChoice = true;
@@ -219,6 +222,7 @@ class Game {
       this.userStillHasChoice = true;
       this.pickUpAllowed = true; 
     }
+    console.log(this.playersIndex);
   }
 
   changeDirection() {
@@ -243,6 +247,23 @@ class Game {
 
   checkIfGameOver() {
     return playersLeft(this.players) > 1;
+  }
+
+  removePlayersThatHaveNoMoreCards () {
+    const newPlayers = []; 
+    const players = this.players; 
+    for(let player of players){
+      console.log("player")
+      console.log(player)
+      if(player.hand.length > 0){
+        newPlayers.push(player);
+      } else {
+        this.playersRanksArray.push(player);
+      }
+    }
+    this.players = newPlayers; 
+    this.numberOfplayersPlaying = this.players.length; 
+    console.log(`player index ${this.playerIndex} numberOfplayersPlaying = ${this.numberOfplayersPlaying}`); 
   }
 
   insertPlayerIntoGame(playerInstance) {

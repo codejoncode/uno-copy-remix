@@ -37,7 +37,7 @@
  * 
  */
 
-const stacks = {
+export const stacks = {
   "00": null,
   "11": null,
   "22": null,
@@ -57,7 +57,7 @@ const stacks = {
   "1412": null
 };
 
-const counts = {
+export const counts = {
   "90": null,
   "09": null,
   "98": null,
@@ -82,7 +82,7 @@ const counts = {
   "98": null
 };
 
-const actionCreators = {
+export  const actionCreators = {
   "014": null,
   "114": null,
   "214": null,
@@ -105,12 +105,12 @@ const actionCreators = {
   "913": null
 };
 
-const draws = {
+export const draws = {
     "14": null, 
     "12": null
 }
 
-const colorChangers = {
+export const colorChangers = {
     "14": null,
     "13": null,
 }

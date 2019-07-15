@@ -96,16 +96,19 @@ class Game {
               //provide the drawValue to the drawFlag;
               this.drawFlag(card.drawValue);
             } else if (card.cardValue === WILD) {
-              // wild card
+              // wild card this line is nice but picking theColorToChangeTo is only needed if its the last card the player throws down
               this.pickColorToChangeTo();
             } else if (card.cardValue === DRAW4) {
               this.drawFlag(card.drawValue);
-              this.pickColorToChangeTo();
+              // this.pickColorToChangeTo(); // RAISE FLAG BUT ONLY MAKE THE USER PICK COLOR IF ITS THE LAST CARD.  IE THEY THROW DOWN MULTIPLE DRAW FOURS NO NEED FOR EACH.
             }
 
             this.playedPile.push(card);
 
             if (index === playersCardsToPlay.length - 1) {
+              if (card.cardValue === WILD || card.cardValue === DRAW4){
+                this.pickColorToChangeTo(); 
+              }
               this.topCard = card;
               const currentColor =
                 this.colorIs === this.topCard.color ? this.colorIs : this.topCard.color;

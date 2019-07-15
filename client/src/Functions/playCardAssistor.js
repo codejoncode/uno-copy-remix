@@ -37,9 +37,11 @@ const playCardAssistor = ({topCard, cardToInsert, currentColor, drawFlag}) => {
     }  else if (pair in actionCreators) {
         //wild or draw4 action required 
         console.log("wild or draw4 played action required");
+        return true; 
     } else if(currentColor === cardToInsert.color){
         //wild or draw4 is on top but no draw penalty to this player 
         console.log("wild or draw4 is on top but no draw penalty to this player");
+        return true; 
     } else {
         console.log("This is is something that has not been considered");
         console.log(`${top} | ${next}`);

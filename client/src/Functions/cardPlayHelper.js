@@ -93,6 +93,9 @@ export  const actionCreators = {
   "714": null,
   "814": null,
   "914": null,
+  "1014":null,
+  "1114":null,
+  "1314":null,
   "013": null,
   "113": null,
   "213": null,
@@ -102,7 +105,11 @@ export  const actionCreators = {
   "613": null,
   "713": null,
   "813": null,
-  "913": null
+  "913": null,
+  "1013": null, 
+  "1113": null,
+  "1213": null, 
+  "1413": null, 
 };
 
 export const draws = {

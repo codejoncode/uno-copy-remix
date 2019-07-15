@@ -5,7 +5,7 @@
  */
 import {stacks, counts, actionCreators, draws} from "./cardPlayHelper";
 
-const playCardAssistor = (topCard, cardToInsert, currentColor, drawFlag) => {
+const playCardAssistor = ({topCard, cardToInsert, currentColor, drawFlag}) => {
     //format to string the cardvalue of the topCard and cardToInsert 
     const top = String(topCard.cardValue);
     const next = String(cardToInsert.cardValue);

@@ -1,3 +1,5 @@
+import playCardAssistor from "../Functions/playCardAssistor";
+import {draws, colorChangers, counts}  from "../Functions/cardPlayHelper";
 const SKIP = 10;
 const REVERSE = 11;
 const DRAW2 = 12;
@@ -68,6 +70,16 @@ class Player {
     this.playerTopCard = card;
     this.indexCache.push(index);
   }
+  checkForDraw(){
+    let userHasADraw = false;
+    for (let card of this.hand) {
+      if (card.cardValue === DRAW2 || card.cardValue === DRAW4) {
+        userHasADraw = true;
+      }
+    }
+    return userHasADraw;
+      
+  }
 
   /**
    * Purpose of this function is to keep code dry since many of the same things are considred  just need to change the topCard from the games topCard to the players top card
@@ -80,121 +92,34 @@ class Player {
     drawFlag = false,
     currentColor = null
   ) {
-    /**
-     * draw flag is false by default  so before gathering players cards it will be called to check if the drawTotal is > than zero
-     * The first check is to see if the user  has a draw.
-     */
-    //does the user have a draw?
-    console.log("indexCache");
-    console.log(this.indexCache);
-    console.log("gather for play");
-    console.log(this.gatherForPlay);
-    console.log(`The current color is ${currentColor}`)
-
-    this.error = null; //take away any errors if present
-    console.log("beginning")
-    console.log(this.indexCache);
-    console.log(this.gatherForPlay);
-    if (this.indexCache.includes(indexArray) === false) {
+    //only if the indexArray is not currently in the index Array 
+    if (this.indexCache.includes(indexArray) === false){
       const card = this.hand[indexArray];
-      console.log("card attempting to gather for play");
-      console.log(card); 
-      //now check if the drawFlag has been raised
-      if (drawFlag === true) {
-        console.log("draw flag true")
-        //user is required to enter a draw or pick up so check that they have a draw or force automatic pickup.
-        let userHasADraw = false;
-        for (let card of this.hand) {
-          if (card.cardValue === DRAW2 || card.cardValue === DRAW4) {
-            userHasADraw = true;
+      if (playCardAssistor({topCard, cardToInsert: card, drawFlag, currentColor}) === true){
+        console.log("Successfully went through play card assistor");
+        //check if counts triggerd 
+        if(String(topCard.cardValue) + String(card.cardValue)  in counts){
+          console.log("setting count up or down  flag to true ");
+          this.countUpOrDown = true; // this means we have to check for valid move played. 
+        }
+        console.log("placing card in position");
+        this.placeCardInPosition(card, indexArray);
+      } else {
+        console.log("The move was not valid must see why and adjust");
+        //check if top card was a  draw 
+        if(String(topCard.cardValue) in draws){
+          console.log("Checking to see if the player has a draw")
+          const hasDraw = this.checkForDraw(); 
+          if (hasDraw === false){
+            //this line will force an automatic pick up of the cards for the user
+            return [true, "User is forced to pick up", "pickup"];
           }
-        }
-        if (userHasADraw === false) {
-          // user is forced to pick up cards and their turn has ended.
-          //return out of here
-          return [true, "User is forced to pick up", "pickup"];
         } else {
-          //this code should be dry as it will be repeated each time a user is gathering a card
-          this.placeCardInPosition(card, indexArray);
+          console.log("If its not due to a draw card needing to be played but wasn't not sure what it is. ")
         }
-      } //end of top condition
-      //this is so that the topCard received is considered in comparision
-      else {
-        console.log("NO draw flag is present consider other things");
-        console.log(this.gatherForPlay);
-        console.log(this.indexCache);
-        //now check if the card.color matches the current color this should help with wild or draw 4's are on top and the color has been selected
-        if (this.gatherForPlay.length === 0 && card.color === currentColor) {
-          // only care about currentColor if gatherForPlay is empty
-          this.placeCardInPosition(card, indexArray);
-        } else if (card.cardValue === topCard.cardValue) {
-          this.placeCardInPosition(card, indexArray);
-        }
-        //now check four possible count
-        else if (this.isCountingPossible && card.countable) {
-          console.log("counting is possible and card is countable")
-          //now check if the matches take place but only if the topCard is countable
-          console.log("card to consider is top card");
-          console.log(topCard);
-          if (topCard.countable) {
-            console.log("card countable considering")
-            // need 9 8 7   or a 0 9 8 7 or 1 0 9 etc
-            // the value 0 can also be used as a 10
-            let upOneValue;
-            let downOneValue;
-            //check if  the card is a 1
-            switch (Number(topCard.cardValue)) {
-              case 0:
-                upOneValue = 1;
-                downOneValue = 9;
-                break;
-              case 1:
-                upOneValue = 2;
-                downOneValue = 0;
-                break;
-              case 8:
-                upOneValue = 9;
-                downOneValue = 7;
-                break;
-              case 9:
-                upOneValue = 0;
-                downOneValue = 8;
-                break; 
-              default:
-                upOneValue = topCard.cardValue + 1;
-                downOneValue = topCard.cardValue - 1;
-                break;
-            }
-            console.log(`upOneValue = ${upOneValue} and downOneValue ${downOneValue}`)
-            if (
-              card.cardValue === upOneValue ||
-              card.cardValue === downOneValue
-            ) {
-              console.log("count was performed")
-              this.countUpOrDown = true;
-              this.placeCardInPosition(card, indexArray);
-            }
-            //now the above is all the potentials  but another check has to be done the values above cannot be greater than 9 and cannot be less than 0;
-          }
-        } // if the user has a wild or draw 4
-        else if (card.cardValue === WILD || card.cardValue === DRAW4) {
-          console.log("Place this on top wild or draw 4")
-          this.placeCardInPosition(card, indexArray);
-        }
-        //draw2 are covered in color and value but currently are not covered if a draw4 is on top and user places a drw 2  need option for this.
-        else if (topCard.cardValue === DRAW4 && card.cardValue === DRAW2) {
-          this.placeCardInPosition(card, indexArray);
-        } else {
-          this.error = "That move is not valid"; 
-          console.log(this.error);
-        }
-      } 
-    } else {
-      //may want to update to the player letting the know the move is invalid
-      this.error = "Card already in play";
-      console.log(this.error); 
-      return; /// nothing more to do
+      }
     }
+    
   }
 
   removeCardsPlayingFromHand() {
@@ -267,6 +192,136 @@ class Player {
 }
 
 export default Player;
+// console.log("indexCache");
+//     console.log(this.indexCache);
+//     console.log("gather for play");
+//     console.log(this.gatherForPlay);
+//     console.log(`The current color is ${currentColor}`)
+
+//     this.error = null; //take away any errors if present
+//     console.log("beginning")
+//     console.log(this.indexCache);
+//     console.log(this.gatherForPlay);
+//     if (this.indexCache.includes(indexArray) === false) {
+//       const card = this.hand[indexArray];
+//       console.log("card attempting to gather for play");
+//       console.log(card); 
+//       //now check if the drawFlag has been raised
+//       if (drawFlag === true) {
+//         console.log("draw flag true")
+//         //user is required to enter a draw or pick up so check that they have a draw or force automatic pickup.
+//         let userHasADraw = false;
+//         for (let card of this.hand) {
+//           if (card.cardValue === DRAW2 || card.cardValue === DRAW4) {
+//             userHasADraw = true;
+//           }
+//         }
+//         if (userHasADraw === false) {
+//           // user is forced to pick up cards and their turn has ended.
+//           //return out of here
+//           return [true, "User is forced to pick up", "pickup"];
+//         } else {
+//           //this code should be dry as it will be repeated each time a user is gathering a card
+//           this.placeCardInPosition(card, indexArray);
+//         }
+//       } //end of top condition
+//       //this is so that the topCard received is considered in comparision
+//       else {
+//         console.log("NO draw flag is present consider other things");
+//         console.log(this.gatherForPlay);
+//         console.log(this.indexCache);
+//         //now check if the card.color matches the current color this should help with wild or draw 4's are on top and the color has been selected
+//         if (this.gatherForPlay.length === 0 && card.color === currentColor) {
+//           // only care about currentColor if gatherForPlay is empty
+//           this.placeCardInPosition(card, indexArray);
+//         } else if (card.cardValue === topCard.cardValue) {
+//           this.placeCardInPosition(card, indexArray);
+//         }
+//         //now check four possible count
+//         else if (this.isCountingPossible && card.countable) {
+//           console.log("counting is possible and card is countable")
+//           //now check if the matches take place but only if the topCard is countable
+//           console.log("card to consider is top card");
+//           console.log(topCard);
+//           if (topCard.countable) {
+//             console.log("card countable considering")
+//             // need 9 8 7   or a 0 9 8 7 or 1 0 9 etc
+//             // the value 0 can also be used as a 10
+//             let upOneValue;
+//             let downOneValue;
+//             //check if  the card is a 1
+//             switch (Number(topCard.cardValue)) {
+//               case 0:
+//                 upOneValue = 1;
+//                 downOneValue = 9;
+//                 break;
+//               case 1:
+//                 upOneValue = 2;
+//                 downOneValue = 0;
+//                 break;
+//               case 8:
+//                 upOneValue = 9;
+//                 downOneValue = 7;
+//                 break;
+//               case 9:
+//                 upOneValue = 0;
+//                 downOneValue = 8;
+//                 break; 
+//               default:
+//                 upOneValue = topCard.cardValue + 1;
+//                 downOneValue = topCard.cardValue - 1;
+//                 break;
+//             }
+//             console.log(`upOneValue = ${upOneValue} and downOneValue ${downOneValue}`)
+//             if (
+//               card.cardValue === upOneValue ||
+//               card.cardValue === downOneValue
+//             ) {
+//               console.log("count was performed")
+//               this.countUpOrDown = true;
+//               this.placeCardInPosition(card, indexArray);
+//             }
+//             //now the above is all the potentials  but another check has to be done the values above cannot be greater than 9 and cannot be less than 0;
+//           }
+//         } // if the user has a wild or draw 4
+//         else if (card.cardValue === WILD || card.cardValue === DRAW4) {
+//           console.log("Place this on top wild or draw 4")
+//           this.placeCardInPosition(card, indexArray);
+//         }
+//         //draw2 are covered in color and value but currently are not covered if a draw4 is on top and user places a drw 2  need option for this.
+//         else if (topCard.cardValue === DRAW4 && card.cardValue === DRAW2) {
+//           this.placeCardInPosition(card, indexArray);
+//         } else {
+//           this.error = "That move is not valid"; 
+//           console.log(this.error);
+//         }
+//       } 
+//     } else {
+//       //may want to update to the player letting the know the move is invalid
+//       this.error = "Card already in play";
+//       console.log(this.error); 
+//       return; /// nothing more to do
+//     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // if (
 //   this.playerTopCard &&

@@ -31,12 +31,16 @@ class App extends Component {
   }
 
   makePlay = () => async () => {
-    console.log("make a  play");
-    await this.state.game.mainGamePlay(this.state.game.players[this.state.game.playerIndex], "play");
-    console.log(`This is the playerIndex for the game ${this.state.game.playerIndex}`);
-    const currentPlayer = await this.state.game.players[this.state.game.playerIndex];
-    const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
-    this.setState({currentPlayer, currentUsersHandAttempt });
+    if(this.state.game.numberOfplayersPlaying > 1)
+    {
+      console.log("make a  play");
+      await this.state.game.mainGamePlay(this.state.game.players[this.state.game.playerIndex], "play");
+      console.log(`This is the playerIndex for the game ${this.state.game.playerIndex}`);
+      const currentPlayer = await this.state.game.players[this.state.game.playerIndex];
+      const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
+      this.setState({currentPlayer, currentUsersHandAttempt });
+
+    }
   }
   nextPlayer = () => async () => {
     //check that the users has made a pick up at least before they click nextPlayer

@@ -32,27 +32,47 @@ class LinkedList{
     }
     this.count++;
   }
-  remove(value){
+  remove(name){
     /**
      * search for value then remove it 
+     * value will be a players instance so the value we are looking for is the name 
      */
     let current = this.head; 
     //it's a circular linked list so this will loop forever if the value doesn't exist 
     let checked = 0; //increment each time we go next 
-    while(current.value != value || checked < this.count){
+    while(current.value.name != name || checked < this.count){
       current = current.next; 
       checked++; 
     }
     //at this point because I avoided the infinite loop I still have to check if the value of current matches the value i'm looking for. 
-    if(current.value === value){
+    if(current.value.name === name){
       //we have it
       //so the previous  next would be the current but now set it to current.next  taking current out of the equation 
+      console.log("found and removing")
       current.previous.next = current.next;  
       this.count--;
       return true; //
-    } else 
-    return null; 
-
+    } else {
+      console.log("Unable to find the name ")
+      return null; 
+    }
+    
+  }
+  markActive(name){
+    /** this will set the current person to be the active player */
+    let current = this.head; 
+    let checked = 0; 
+    while(checked < this.count){
+      if(current.value.name === name){
+        console.log(`This is the players turn ${name}`)
+        current.active = true; 
+      } else {
+        current.active = false; 
+      }
+      
+      current = current.next; 
+      checked++; 
+    }
   }
 }
 export default LinkedList; 

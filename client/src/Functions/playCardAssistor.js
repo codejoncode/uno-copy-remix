@@ -45,3 +45,5 @@ const playCardAssistor = (topCard, cardToInsert, currentColor, drawFlag) => {
         console.log(`${top} | ${next}`);
     }
 }
+
+export default playCardAssistor;

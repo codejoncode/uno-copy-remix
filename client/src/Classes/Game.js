@@ -2,6 +2,7 @@ import generateDeck from "../Functions/generateDeck";
 import playersLeft from "../Functions/playersleft";
 import shuffleDeck from "../Functions/shuffleDeck";
 import finalCountCheck from "../Functions/finalCountCheck";
+import linkedList from "./LinkedList";
 const SKIP = 10;
 const REVERSE = 11;
 const DRAW2 = 12;
@@ -17,7 +18,7 @@ class Game {
     this.deck = [];
     this.playedPile = [];
     this.topCard = null;
-    this.players = [];
+    this.players = new linkedList();
     this.drawTotal = 0;
     this.direction = true; // "forward  === true  backward === false"
     this.playerIndex = 0;
@@ -323,9 +324,9 @@ class Game {
   insertPlayerIntoGame(playerInstance) {
     /**
      * Should be a playerInstance from Player class
-     * insert into array
+     * insert into doubly circular linked list
      */
-    this.players.push(playerInstance);
+    this.players.append(playerInstance);
   }
 
   deal() {

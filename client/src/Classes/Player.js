@@ -23,33 +23,33 @@ class Player {
   addToPlayersHand(card) {
     this.hand.push(card);
     this.cardsLeft = this.hand.length;
-    this.checkForCount();
+    // this.checkForCount();
   }
-  checkForCount() {
-    if (this.hand.length >= 3) {
-      const cache = {};
-      //build the cache every time we add a card
-      for (let card of this.hand) {
-        // only if its not a 10 11 12 13 or 14
-        if (card.cardValue >= 0 && card.cardValue <= 9) {
-          cache[card.cardValue] = card.uniqueNumber;
-          if(card.alias){
-            cache[card.alias] = card.uniqueNumber;
-          }
-        }
-      }
-      //now loop back and check if three distinct numbers are available
-      for (let card of this.hand) {
-        if (
-          (card.cardValue - 1 in cache && card.cardValue - 2 in cache) ||
-          (card.cardValue + 1 in cache && card.cardValue + 2 in cache)
-        ) {
-          console.log("Counting is possible for this hand");
-          this.isCountingPossible = true;
-        }
-      }
-    }
-  }
+  // checkForCount() {
+  //   if (this.hand.length >= 3) {
+  //     const cache = {};
+  //     //build the cache every time we add a card
+  //     for (let card of this.hand) {
+  //       // only if its not a 10 11 12 13 or 14
+  //       if (card.cardValue >= 0 && card.cardValue <= 9) {
+  //         cache[card.cardValue] = card.uniqueNumber;
+  //         if(card.alias){
+  //           cache[card.alias] = card.uniqueNumber;
+  //         }
+  //       }
+  //     }
+  //     //now loop back and check if three distinct numbers are available
+  //     for (let card of this.hand) {
+  //       if (
+  //         (card.cardValue - 1 in cache && card.cardValue - 2 in cache) ||
+  //         (card.cardValue + 1 in cache && card.cardValue + 2 in cache)
+  //       ) {
+  //         console.log("Counting is possible for this hand");
+  //         this.isCountingPossible = true;
+  //       }
+  //     }
+  //   }
+  // }
 
   organizePlayersHand(type) {
     //sort the players hand based on current color,
@@ -118,6 +118,8 @@ class Player {
           console.log("If its not due to a draw card needing to be played but wasn't not sure what it is. ")
         }
       }
+    } else {
+      console.log("this card is already selected in which the plan is to not display this in the hand section but later down the road");
     }
     
   }
@@ -132,7 +134,7 @@ class Player {
     this.hand = newHand;
     this.cardsLeft = this.hand.length;
     this.resetBackToPrevious();
-    this.checkForCount();
+    // this.checkForCount();
   }
 
   resetBackToPrevious() {

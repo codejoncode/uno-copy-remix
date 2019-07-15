@@ -304,22 +304,6 @@ class Game {
     return playersLeft(this.players) > 1;
   }
 
-  removePlayersThatHaveNoMoreCards () {
-    const newPlayers = []; 
-    const players = this.players; 
-    for(let player of players){
-      console.log("player")
-      console.log(player)
-      if(player.hand.length > 0){
-        newPlayers.push(player);
-      } else {
-        this.playersRanksArray.push(player);
-      }
-    }
-    this.players = newPlayers; 
-    this.numberOfplayersPlaying = this.players.length; 
-    console.log(`player index ${this.playerIndex} numberOfplayersPlaying = ${this.numberOfplayersPlaying}`); 
-  }
 
   insertPlayerIntoGame(playerInstance) {
     /**

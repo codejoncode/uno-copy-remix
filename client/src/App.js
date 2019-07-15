@@ -7,7 +7,7 @@ import MainBoard from './Components/MainBoard';
 
 class App extends Component {
   state = {
-    players :["Jonathan", "Timonthy", "James"],
+    players :["Jonathan", "Timonthy", "James", "Jacob", "Samantha", "Lady", "Computer", "Grand Master", "Chump"],
     gameStarted: false,
     currentPlayer: null, 
     currentUsersHandAttempt : [],

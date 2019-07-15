@@ -49,7 +49,10 @@ class LinkedList{
       //we have it
       //so the previous  next would be the current but now set it to current.next  taking current out of the equation 
       console.log("found and removing")
-      current.previous.next = current.next;  
+      const previous = current.previous;
+      const next = current.next;
+      previous.next = next; 
+      next.previous = previous;
       this.count--;
       return true; //
     } else {
@@ -58,14 +61,17 @@ class LinkedList{
     }
     
   }
+
   markActive(name){
     /** this will set the current person to be the active player */
     let current = this.head; 
     let checked = 0; 
+    let activePlayer = null; 
     while(checked < this.count){
       if(current.player.name === name){
         console.log(`This is the players turn ${name}`)
         current.active = true; 
+        activePlayer = current; 
       } else {
         current.active = false; 
       }
@@ -73,6 +79,7 @@ class LinkedList{
       current = current.next; 
       checked++; 
     }
+    return activePlayer; 
   }
 }
 export default LinkedList; 

@@ -332,9 +332,14 @@ class Game {
   deal() {
     let totalCards = 7;
     while (totalCards > 0) {
-      for (let player of this.players) {
-        player.addToPlayersHand(this.deck.pop());
+      let dealtTo = 0;
+      let current = this.players.head;  
+      while(dealTo < this.players.count){
+        current.player.addToPlayersHand(this.deck.pop()); // player presents the playerInstance the value of the node. 
+        current = current.next; // iterate to next 
+        dealtTo++; // keep count the linked list is circular could loop on forever 
       }
+
       totalCards--;
     }
     while (true) {

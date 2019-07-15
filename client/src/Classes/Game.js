@@ -297,13 +297,11 @@ class Game {
     this.topCard = this.playedPile[this.playedPile.length - 1];
     this.deck = shuffleDeck(deckToShuffle);
     this.playedPile = [...this.topCard];
-    this.players = [];
   }
 
   checkIfGameOver() {
     return playersLeft(this.players) > 1;
   }
-
 
   insertPlayerIntoGame(playerInstance) {
     /**

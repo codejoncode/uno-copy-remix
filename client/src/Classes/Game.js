@@ -1,6 +1,7 @@
 import generateDeck from "../Functions/generateDeck";
 import playersLeft from "../Functions/playersleft";
 import shuffleDeck from "../Functions/shuffleDeck";
+import finalCountCheck from "../Functions/finalCountCheck";
 const SKIP = 10;
 const REVERSE = 11;
 const DRAW2 = 12;
@@ -44,37 +45,7 @@ class Game {
     this.pickUpAllowed = true; 
     this.playMade = false; 
   }
-  finalCountCheck(playerInstance) {
-    //currently doesn't consider order but this should not cause a problem as they will need 3 distinct numbers going in either direction
-    //also the way the cards are added ordered is then considred
-    console.log("Checking users count")
-    const hand = playerInstance.gatherForPlay;
-    if (hand.length >= 3) {
-      const cache = {};
-      //build the cache every time we add a card
-      for (let card of hand) {
-        // only if its not a 10 11 12 13 or 14
-        if (card.cardValue >= 0 && card.cardValue <= 9) {
-          cache[card.cardValue] = card.uniqueNumber;
-          if(card.alias){
-            cache[card.alias] = card.uniqueNumber;
-          }
-        }
-      }
-      //now loop back and check if three distinct numbers are available
-      for (let card of this.hand) {
-        if (
-          (card.cardValue - 1 in cache && card.cardValue - 2 in cache) ||
-          (card.cardValue + 1 in cache && card.cardValue + 2 in cache)
-        ) {
-          console.log("Counting is possible for this hand");
-          return true
-        } else {
-          return false 
-        }
-      }
-    }
-  }
+  
   mainGamePlay(player, playerChoosesTo, againstPlayer = null) {
     // player should be instance of Player Calss playerChoosesTo is their decesion they make   playersCardsToPlay is optional because not all choices requires them to play cards.
     /**
@@ -103,7 +74,7 @@ class Game {
           const playersCardsToPlay = checkForErrors[1];
           if(player.countUpOrDown === true){
             //check if they have three distinct numbers if they do not issue them two cards as a penalty
-            if(this.finalCountCheck(player) === false){
+            if(finalCountCheck(player) === false){
               //penalize 2 cards
               this.drawFlag(2);
               //make user lose turn and be forced to pick up

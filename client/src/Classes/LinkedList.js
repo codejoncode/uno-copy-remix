@@ -13,9 +13,9 @@ class LinkedList{
       this.count = 0; 
   }
 
-  append (value) {
+  append (player) {
     const newNode = {};
-    newNode.value = value; 
+    newNode.player = player; 
     if(this.count === 0){
       this.head = newNode;
       this.head.next = newNode;
@@ -40,12 +40,12 @@ class LinkedList{
     let current = this.head; 
     //it's a circular linked list so this will loop forever if the value doesn't exist 
     let checked = 0; //increment each time we go next 
-    while(current.value.name != name || checked < this.count){
+    while(current.player.name != name || checked < this.count){
       current = current.next; 
       checked++; 
     }
-    //at this point because I avoided the infinite loop I still have to check if the value of current matches the value i'm looking for. 
-    if(current.value.name === name){
+    //at this point because I avoided the infinite loop I still have to check if player of current matches the value i'm looking for. 
+    if(current.player.name === name){
       //we have it
       //so the previous  next would be the current but now set it to current.next  taking current out of the equation 
       console.log("found and removing")
@@ -63,7 +63,7 @@ class LinkedList{
     let current = this.head; 
     let checked = 0; 
     while(checked < this.count){
-      if(current.value.name === name){
+      if(current.player.name === name){
         console.log(`This is the players turn ${name}`)
         current.active = true; 
       } else {

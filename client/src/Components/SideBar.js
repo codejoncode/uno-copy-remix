@@ -1,11 +1,15 @@
 import React from "react";
-
+import linkedListToArray from "../Functions/linkedListToArray";
 /**
  *
  * Should be a array of Player class instances
  * Can access the name of the player and their cards left with .name and .cardsLeft
  */
 const SideBar = ({ players, activePlayer }) => {
+  /** players is a linked list  */
+  players = linkedListToArray(players);
+  console.log(players); 
+  
   if (players.length &&  activePlayer){
       return (
         <div>

@@ -15,6 +15,7 @@ const linkedListToArray = (doublyCircularLinkedList) => {
             checked++; 
             current = current.next; 
         }
+        return returning;
 
     } else {
         console.log("The linked list is empty");

@@ -10,7 +10,7 @@ class LinkedList{
   constructor(){
       this.head = null;
       this.tail = null; 
-      this.count = 0; 
+      this.count = 0;
   }
 
   append (player) {
@@ -63,6 +63,7 @@ class LinkedList{
   }
 
   markActive(name){
+    console.log(`marking ${name} active`);
     /** this will set the current person to be the active player */
     let current = this.head; 
     let checked = 0; 

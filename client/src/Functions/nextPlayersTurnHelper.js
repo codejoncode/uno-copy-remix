@@ -41,6 +41,15 @@ export const nextPlayersTurnHelper = (
       const playerToMarkActive = active.next.player.name;
       doublyCicularLinkedList.markActive(playerToMarkActive);
       doublyCicularLinkedList.remove(playerToRemove);
+      let current = doublyCicularLinkedList.head; 
+      let checked = 0; 
+      console.log("iterating over the linked list to make sure the player with zero cards has been removed");
+      console.log("this is likely a pointer issue where I am changing things on the linked list but it doesn't modify the actual linked list");
+      while(checked < doublyCicularLinkedList.count){
+        console.log(current.player.name);
+        checked++;
+        current = current.next; 
+      }
       turnSwitched = true;
       console.log(
         `active player has no cards removing them ${playerToRemove} `

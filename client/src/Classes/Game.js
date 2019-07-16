@@ -156,6 +156,7 @@ class Game {
                     this.skips,
                     this.direction
                   );
+                  this.resetGameFieldsToDefault();
                 }
               } else {
                 nextPlayersTurnHelper(
@@ -164,6 +165,7 @@ class Game {
                   this.skips,
                   this.direction
                 );
+                this.resetGameFieldsToDefault();
               }
             }
           }
@@ -186,6 +188,7 @@ class Game {
             this.skips,
             this.direction
           );
+          this.resetGameFieldsToDefault();
           //handle reset if neccessary  like whats in this.nextPlayersTurn();
         } else if (this.pickUpAllowed) {
           console.log("Pick up is allowed player picking up one");
@@ -202,6 +205,7 @@ class Game {
             this.skips,
             this.direction
           );
+          this.resetGameFieldsToDefault();
           //handle reset if neccessary  like whats in this.nextPlayersTurn();
         }
         break;
@@ -307,6 +311,7 @@ class Game {
           this.skips,
           this.direction
         );
+        this.resetGameFieldsToDefault();
         //handle reset if neccessary  like whats in this.nextPlayersTurn();
       }
 
@@ -324,6 +329,7 @@ class Game {
         this.skips,
         this.direction
       );
+      this.resetGameFieldsToDefault();
       //handle reset if neccessary  like whats in this.nextPlayersTurn();
     }
   }

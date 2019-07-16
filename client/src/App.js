@@ -25,6 +25,7 @@ class App extends Component {
     const {players} = this.state;
     const game = await startGame(players, players.length);
     //update the state with the game  
+    console.log(game.currentPlayer.player.name);
     await this.setState({game, gameStarted: true, currentPlayer: game.currentPlayer});
   }
 
@@ -114,7 +115,7 @@ class App extends Component {
          <br/>
          <br/>
           {/* only the player logged in as this player should see the cards faces will modify this later down the line */}
-          {currentPlayer && currentPlayer.hand.map((card, index) => <div className = "clickableCard" onClick = {this.selectingCard(index)} key = {index}><Card  card = {card} /></div>)}
+          {currentPlayer && currentPlayer.player.hand.map((card, index) => <div className = "clickableCard" onClick = {this.selectingCard(index)} key = {index}><Card  card = {card} /></div>)}
         </div>
       }
        {gameStarted && !currentPlayer &&

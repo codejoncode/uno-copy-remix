@@ -27,17 +27,17 @@ class App extends Component {
     const {players} = this.state;
     const game = await startGame(players, players.length);
     //update the state with the game  
-    await this.setState({game, gameStarted: true, currentPlayer: game.players[game.playerIndex]});
+    await this.setState({game, gameStarted: true, currentPlayer: game.currentPlayer);
   }
 
   makePlay = () => async () => {
     if(this.state.game.numberOfplayersPlaying > 1)
     {
       console.log("make a  play");
-      await this.state.game.mainGamePlay(this.state.game.players[this.state.game.playerIndex], "play");
-      console.log(`This is the playerIndex for the game ${this.state.game.playerIndex}`);
-      const currentPlayer = await this.state.game.players[this.state.game.playerIndex];
-      const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
+      await this.state.game.mainGamePlay(game.currentPlayer, "play");
+      console.log(`This is the player playing${game.currentPlayer.player.name}`);
+      const currentPlayer = await this.state.game.currentPlayer;
+      const currentUsersHandAttempt = await currentPlayer.player.gatherForPlay; 
       this.setState({currentPlayer, currentUsersHandAttempt });
 
     }
@@ -94,7 +94,7 @@ class App extends Component {
     console.log(topCard);
     return (
       <div>
-      {gameStarted && <SideBar players = {this.state.game.players} activePlayer = {currentPlayer}/>}
+      {gameStarted && <SideBar players = {this.state.game.players} activePlayer = {currentPlayer.player.name}/>}
       { !gameStarted && <button onClick = {this.newGame}>Start Game</button>}
       {gameStarted &&  <MainBoard   topCard = {this.state.game.topCard}/> }
       <br/>
@@ -110,7 +110,7 @@ class App extends Component {
         <div>
           {gameStarted && currentPlayer && 
         <div><button onClick = {this.makePlay()}>Play</button> <button >Select Card</button> <button onClick = {this.pickUp(currentPlayer, "pickup")}>Pick Up</button> <button onClick = {this.nextPlayer()}>next player</button></div> }
-        {currentPlayer && currentPlayer.hand < 2 && <button>Call One</button>}
+        {currentPlayer && currentPlayer.player.hand < 2 && <button>Call One</button>}
          <br/>
          <br/>
          <br/>

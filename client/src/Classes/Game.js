@@ -356,34 +356,14 @@ class Game {
       this.error = "Game Over";
       return;
     }
-    this.skippingAPlayer();
-    console.log(this.playerIndex);
-    if (this.direction) {
-      console.log(
-        `This is the increment ${
-          this.increment
-        } this is the number of players playing ${this.numberOfplayersPlaying} `
-      );
-      this.playerIndex =
-        (this.playerIndex + this.increment) % this.numberOfplayersPlaying;
-      console.log(this.playerIndex);
-      this.resetGameFieldsToDefault();
-    } else {
-      //this.playerIndex =
-      //((this.playerIndex - this.increment) %   this.numberOfplayersPlaying) < 0 ? this.numberOfplayersPlaying - ((this.playerIndex - this.increment) %   this.numberOfplayersPlaying) : this.playerIndex % this.numberOfplayersPlaying;
-      while (this.increment > 0) {
-        console.log(
-          `decrementing the player index currently at ${this.playerIndex}`
-        );
-        this.playerIndex -= 1;
-        if (this.playerIndex < 0) {
-          this.playerIndex = this.numberOfplayersPlaying - 1;
-        }
-        this.increment -= 1;
-      }
-      this.resetGameFieldsToDefault();
-    }
-    console.log(this.playerIndex);
+    this.currentPlayer = nextPlayersTurnHelper(
+      this.players,
+      player,
+      this.skips,
+      this.direction
+    );
+    this.resetGameFieldsToDefault();
+    //handle reset if neccessary  like whats in this.nextPlayersTurn();
   }
 
   changeDirection() {

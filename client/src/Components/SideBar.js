@@ -22,7 +22,7 @@ const SideBar = ({ players, activePlayer }) => {
               {players &&
                 players.length &&
                 players.map((player, index) => (
-                  <tr key={index}><td className = {player.name === activePlayer.name ? "boldActivePlayer" : ""}>{player.name}</td><td>{player.cardsLeft}</td></tr>
+                  <tr key={index}><td className = {player.name === activePlayer ? "boldActivePlayer" : ""}>{player.name}</td><td>{player.cardsLeft}</td></tr>
                 ))}
             </tbody>
           </table>

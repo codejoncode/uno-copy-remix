@@ -95,9 +95,7 @@ export const normalIteration = (direction, active) => {
     active = active.previous;
     console.log(`Changing turns to ${active.player.name}`);
   } else {
-    throw error(
-      `Direction argument is not as expected needs to be true or false explicitly ${direction} received In nextPlayersTurnHelperFunction`
-    );
+    throw `Direction argument is not as expected needs to be true or false explicitly ${direction} received In nextPlayersTurnHelperFunction`;
   }
   return active;
 };

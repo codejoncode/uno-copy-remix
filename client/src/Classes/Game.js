@@ -214,9 +214,7 @@ class Game {
         break; // likely will broadcast this to the rest of the group;
       case "penalize":
         if (againstPlayer === null) {
-          throw error(
-            "againstPlayer should be an instance of the Player class and not null. This error occurs in the penalize case of the switch function of the mainGamePlay method of the Game class"
-          );
+          throw "againstPlayer should be an instance of the Player class and not null. This error occurs in the penalize case of the switch function of the mainGamePlay method of the Game class";
         }
         //penalize can happen when a player doesn't call uno but has one card left
         console.log(
@@ -261,7 +259,7 @@ class Game {
             );
           }
         } else {
-          throw error(`${playerChoosesTo} is not a valid option currently`);
+          throw `${playerChoosesTo} is not a valid option currently`;
         }
         break;
     }
@@ -359,7 +357,7 @@ class Game {
     }
     this.currentPlayer = nextPlayersTurnHelper(
       this.players,
-      player,
+      this.currentPlayer,
       this.skips,
       this.direction
     );
@@ -408,7 +406,7 @@ class Game {
     while (totalCards > 0) {
       let dealtTo = 0;
       let current = this.players.head;
-      while (dealTo < this.players.count) {
+      while (dealtTo < this.players.count) {
         current.player.addToPlayersHand(this.deck.pop()); // player presents the playerInstance the value of the node.
         current = current.next; // iterate to next
         dealtTo++; // keep count the linked list is circular could loop on forever

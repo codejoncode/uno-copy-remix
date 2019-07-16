@@ -14,12 +14,10 @@ class App extends Component {
 
   }
 
-  removePlayersFromGame = () => {
-    //players who no longer have cards should be removed. 
-    let greaterThanZero = this.state.game.checkIfGameOver();
-    if(greaterThanZero > 0){
-      this.state.game.removePlayersThatHaveNoMoreCards();
-    } 
+  componentDidMount (){
+    // will likely load the players for a game in  
+    // can randomly mix the players up to switch things up each go round. 
+    // for now nothing is being done. 
   }
 
   newGame = async () => {
@@ -27,7 +25,7 @@ class App extends Component {
     const {players} = this.state;
     const game = await startGame(players, players.length);
     //update the state with the game  
-    await this.setState({game, gameStarted: true, currentPlayer: game.currentPlayer);
+    await this.setState({game, gameStarted: true, currentPlayer: game.currentPlayer});
   }
 
   makePlay = () => async () => {
@@ -36,8 +34,8 @@ class App extends Component {
       console.log("make a  play");
       await this.state.game.mainGamePlay(game.currentPlayer, "play");
       console.log(`This is the player playing${game.currentPlayer.player.name}`);
-      const currentPlayer = await this.state.game.currentPlayer;
-      const currentUsersHandAttempt = await currentPlayer.player.gatherForPlay; 
+      const currentPlayer = this.state.game.currentPlayer;
+      const currentUsersHandAttempt = currentPlayer.player.gatherForPlay; 
       this.setState({currentPlayer, currentUsersHandAttempt });
 
     }
@@ -46,12 +44,10 @@ class App extends Component {
     //check that the users has made a pick up at least before they click nextPlayer
     //I don't want to remove the choice from the user they can choose to not play at all. 
     if(this.state.game.playMade){
-      await this.removePlayersFromGame();
       await this.state.game.nextPlayersTurn(); 
-      console.log(this.state.game.playerIndex);
-      const currentPlayer = await this.state.game.players[this.state.game.playerIndex];   
-      console.log(currentPlayer);
-      const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
+      const currentPlayer = this.state.game.currentPlayer;   
+      console.log(currentPlayer.player.name);
+      const currentUsersHandAttempt =  currentPlayer.player.gatherForPlay; 
       this.setState({currentPlayer, currentUsersHandAttempt });
     }
 
@@ -59,24 +55,25 @@ class App extends Component {
 
   pickUp = (playerInstance, playerChoosesTo) => () => {
 
-    console.log(`${playerInstance.name} chooses to pickup.`);
+    console.log(`${playerInstance.player.name} chooses to pickup.`);
     this.state.game.mainGamePlay(playerInstance, playerChoosesTo)
-    this.setState({currentPlayer: this.state.game.players[this.state.game.playerIndex]})
+    this.setState({currentPlayer: this.state.game.currentPlayer})
   }
+
   selectingCard = (index) => async () => {
     console.log(`Selecting index ${index}`);
-    const currentPlayer = await this.state.game.players[this.state.game.playerIndex]
     await this.state.game.mainGamePlay(currentPlayer, index);
-    const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
+    const currentPlayer = this.state.game.currentPlayer
+    const currentUsersHandAttempt = currentPlayer.player.gatherForPlay; 
     this.setState({currentPlayer, currentUsersHandAttempt})
   }
 
   clearCard = (index) => async () => {
     console.log("clearing card");
     //this function is for if the player makes a valid move but changes their mind and would like to play something differently. 
-    const currentPlayer = await this.state.game.players[this.state.game.playerIndex];
-    await currentPlayer.removeFromPlayersPlay(index);
-    const currentUsersHandAttempt = await currentPlayer.gatherForPlay; 
+    const currentPlayer = this.state.game.currentPlayer;
+    await currentPlayer.player.removeFromPlayersPlay(index);
+    const currentUsersHandAttempt = currentPlayer.player.gatherForPlay; 
 
     this.setState({currentPlayer, currentUsersHandAttempt});
   }
@@ -87,7 +84,7 @@ class App extends Component {
 
   render(){
     const {gameStarted, currentUsersHandAttempt } = this.state; 
-    const currentPlayer = this.state.game && this.state.game.players[this.state.game.playerIndex];
+    const currentPlayer = this.state.game && this.state.game.currentPlayer;
     
     console.log(currentPlayer);
     const topCard = this.state.game && this.state.game.topCard; 
@@ -109,7 +106,7 @@ class App extends Component {
       {gameStarted && currentPlayer &&
         <div>
           {gameStarted && currentPlayer && 
-        <div><button onClick = {this.makePlay()}>Play</button> <button >Select Card</button> <button onClick = {this.pickUp(currentPlayer, "pickup")}>Pick Up</button> <button onClick = {this.nextPlayer()}>next player</button></div> }
+        <div><button onClick = {this.makePlay()}>Play</button> <button onClick = {this.pickUp(currentPlayer, "pickup")}>Pick Up</button> <button onClick = {this.nextPlayer()}>next player</button></div> }
         {currentPlayer && currentPlayer.player.hand < 2 && <button>Call One</button>}
          <br/>
          <br/>
@@ -141,23 +138,3 @@ class App extends Component {
 }
 
 export default App;
-
-// while(game.checkIfGameOver()=== true)
-// {
-//   //show top card 
-//   console.log(`current top card  ${game.topCard}`);
-//   //currentPlayer 
-//   const currentPlayer = game.players[game.playerIndex];
-//   //show whose turn it is 
-//   console.log(`Its your turn ${currentPlayer.name}`);
-//   //show current players hand  
-//   console.log(`Here is whats in your hand ${currentPlayer.hand}`);
-//   if(currentPlayer.gatherForPlay.length > 0){
-//     console.log(`Already selected ${currentPlayer.gatherForPlay}`);
-//   }
-
-//   const userChoice = window.prompt("Please enter your choice index of card from your hand\n  play -->>to play what you selected \n pickup --> to pick up a card or cards if there is a draw penalty");
-//   if(userChoice)
-//   {
-//     mainGamePlay(currentPlayer, userChoice);
-//   }

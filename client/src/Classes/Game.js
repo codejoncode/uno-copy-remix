@@ -353,6 +353,7 @@ class Game {
 
   nextPlayersTurn() {
     if (this.checkIfGameOver() === false) {
+      console.log("Game over");
       this.error = "Game Over";
       return;
     }

@@ -150,7 +150,7 @@ class Game {
                   console.log(
                     "Reverse or skip card but more than 2 players in the game"
                   );
-                  nextPlayersTurnHelper(
+                  this.currentPlayer = nextPlayersTurnHelper(
                     this.players,
                     player,
                     this.skips,
@@ -159,7 +159,7 @@ class Game {
                   this.resetGameFieldsToDefault();
                 }
               } else {
-                nextPlayersTurnHelper(
+                this.currentPlayer = nextPlayersTurnHelper(
                   this.players,
                   player,
                   this.skips,
@@ -182,7 +182,7 @@ class Game {
           console.log(`${this.drawTotal} cards to be picked up`);
           this.drawTotal = 0;
           this.issueFromDeck(player, pickUpAmount);
-          nextPlayersTurnHelper(
+          this.currentPlayer = nextPlayersTurnHelper(
             this.players,
             player,
             this.skips,
@@ -199,7 +199,7 @@ class Game {
           console.log(
             "This user has already picked up and cannot pick up again"
           );
-          nextPlayersTurnHelper(
+          this.currentPlayer = nextPlayersTurnHelper(
             this.players,
             player,
             this.skips,
@@ -305,7 +305,7 @@ class Game {
         this.userStillHasChoice = false;
         this.drawTotal = 0;
         // this.nextPlayersTurn();
-        nextPlayersTurnHelper(
+        this.currentPlayer = nextPlayersTurnHelper(
           this.players,
           player,
           this.skips,
@@ -323,7 +323,7 @@ class Game {
       
     } else {
       console.log("Pick up is not allowed");
-      nextPlayersTurnHelper(
+      this.currentPlayer = nextPlayersTurnHelper(
         this.players,
         player,
         this.skips,
@@ -414,7 +414,12 @@ class Game {
      * Should be a playerInstance from Player class
      * insert into doubly circular linked list
      */
+    
     this.players.append(playerInstance);
+    if (this.players.count === 1){
+      console.log(`Setting the player to start the game to ${this.players.head.player.name}`);
+      this.currentPlayer = this.players.head; 
+    }
   }
 
   deal() {

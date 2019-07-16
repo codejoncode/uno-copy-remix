@@ -47,7 +47,7 @@ class App extends Component {
       console.log("make a  play");
       await this.state.game.mainGamePlay(this.state.game.currentPlayer, "play");
       console.log(
-        `This is the player playing${this.state.game.currentPlayer.player.name}`
+        `This is the player playing ${this.state.game.currentPlayer.player.name}`
       );
       const currentPlayer = this.state.game.currentPlayer;
       const currentUsersHandAttempt = currentPlayer.player.gatherForPlay;

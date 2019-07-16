@@ -66,9 +66,14 @@ export const nextPlayersTurnHelper = (
     active = normalIteration(direction, active);
     // slight issue with below what if we removed a player we are greater than 2 and skips is greater than zero one iteration has been made
   } else if (greaterThanTwo === true && skips > 0) {
+    console.log("Greater than 2  and skips greater than zero");
+    console.log(`${skips} skips to consider`);
     if (turnSwitched === false) {
+      console.log("First iteration the normal ")
       active = normalIteration(direction, active); //solves the problem
     }
+    console.log("console.log consider all skips now");
+    console.log(`Reminder this is the skips ${skips}`);
     //now that is done we can account for any skips
     let skipsTaken = 0;
     while (skips > skipsTaken) {

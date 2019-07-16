@@ -3,7 +3,6 @@
  * So this function will serve the purpose of handling this requirement and making this part of the game
  * bug free
  */
-import LinkedList from "../Classes/LinkedList"; //actually is a doubly circular linked list
 
 export const nextPlayersTurnHelper = (
   doublyCicularLinkedList,
@@ -23,6 +22,8 @@ export const nextPlayersTurnHelper = (
    *
    */
   console.log("Inside the next players turn helper");
+
+  console.log(`this is the player ${active.player.name}'s cards left :  ${active.player.cardsLeft} and also lets check their play has been done  ${active.player.gatherForPlay.length}`);
   //skips not considered if there are only 2 players it will remain the same persons turn.
   const greaterThanTwo = doublyCicularLinkedList.count > 2;
   let turnSwitched = false;
@@ -30,7 +31,7 @@ export const nextPlayersTurnHelper = (
   // now the active should have the currently active player but no consideration has been made for if the players may need to be removed
   // from the game which is an possiblity
   // this done now because the player who just played a card is the likely one to not have any more cards.
-  if (active.player.hand === 0) {
+  if (active.player.cardsLeft === 0) {
     console.log("active player is out of cards");
     // first take a look at the activePlayers hand  is it zero?
     if (direction === true) {
@@ -77,7 +78,7 @@ export const nextPlayersTurnHelper = (
     //now that is done we can account for any skips
     let skipsTaken = 0;
     while (skips > skipsTaken) {
-      normalIteration(direction, active);
+      active = normalIteration(direction, active);
       skipsTaken++;
     }
   } else {
@@ -85,6 +86,7 @@ export const nextPlayersTurnHelper = (
       "The else block is only being used to show that  there is something that has not been considered but perhaps the user had a empty hand and tht was all that was needed"
     );
   }
+
   return active;
 };
 

@@ -284,32 +284,47 @@ class Game {
       return;
     }
     console.log(
-      `${player.name} getting ${amount} ${amount > 1 ? "cards" : "card"}`
+      `${player.player.name} getting ${amount} ${amount > 1 ? "cards" : "card"}`
     );
     //story user has to pick up or chooses to pick up still can drop down though. // amount should be either 1 by default or the drawTotal
     //player should be an instance of Player class
     if (this.pickUpAllowed) {
       while (amount > 0) {
-        player.addToPlayersHand(this.deck.pop());
+        player.player.addToPlayersHand(this.deck.pop());
         amount--;
       }
 
-      console.log(player);
+      console.log(player.player.name);
       //reset this.drawTotal incase IssueFromDeck was called for a non optional pick up
       if (this.drawTotal > 0) {
         //this indicates that the playeer was picking up a draw Total therefore there turn is over.
         this.userStillHasChoice = false;
         this.drawTotal = 0;
-        this.nextPlayersTurn();
+        // this.nextPlayersTurn();
+        nextPlayersTurnHelper(
+          this.players,
+          player,
+          this.skips,
+          this.direction
+        );
+        //handle reset if neccessary  like whats in this.nextPlayersTurn();
       }
 
       // this.drawTotal = 0;// should reset it
-      if (this.deck.length <= 10) {
+      if (this.deck.length <= 25) {
         this.shuffleCardPileBackIntoDeck();
       }
       this.pickUpAllowed = false;
+      
     } else {
-      this.nextPlayersTurn();
+      console.log("Pick up is not allowed");
+      nextPlayersTurnHelper(
+        this.players,
+        player,
+        this.skips,
+        this.direction
+      );
+      //handle reset if neccessary  like whats in this.nextPlayersTurn();
     }
   }
 
